@@ -1,7 +1,8 @@
+import styles from "./DeveloperCard.module.css";
 import { useId, useState } from "react";
 
 export function SkillBadge({ name }) {
-  return <li className="skill-badge">{name}</li>;
+  return <li className={styles.skill}>{name}</li>;
 }
 
 export function DeveloperCard({
@@ -30,13 +31,13 @@ export function DeveloperCard({
     .join("");
 
   return (
-    <article aria-labelledby={`${baseId}-name`} className="developer-card">
-      <header className="developer-card__header">
+    <article aria-labelledby={`${baseId}-name`} className={styles.card}>
+      <header className={styles.header}>
         {avatarFailed ? (
-          <span className="developer-card__initials" aria-hidden="true">{initials}</span>
+          <span className={styles.initials} aria-hidden="true">{initials}</span>
         ) : (
           <img
-            className="developer-card__avatar"
+            className={styles.avatar}
             src={developer.avatar}
             alt=""
             width="80"
@@ -48,7 +49,7 @@ export function DeveloperCard({
         <p>{developer.role}</p>
       </header>
       <p>{developer.summary}</p>
-      <dl className="developer-card__details">
+      <dl className={styles.details}>
         <dt>Location</dt>
         <dd>{developer.location}</dd>
         <dt>Specialty</dt>
@@ -56,7 +57,7 @@ export function DeveloperCard({
       </dl>
       <section aria-labelledby={`${baseId}-skills`}>
         <h3 id={`${baseId}-skills`}>Skills</h3>
-        <ul className="developer-card__skills">
+        <ul className={styles.skills}>
           {developer.skills.map((skill) => <SkillBadge key={skill.id} name={skill.name} />)}
         </ul>
       </section>

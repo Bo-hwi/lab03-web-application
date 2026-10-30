@@ -22,5 +22,5 @@ test("DeveloperCard uses stable skill IDs and explicit avatar dimensions", () =>
   const html = renderToStaticMarkup(React.createElement(DeveloperCard));
   assert.match(html, /width="80" height="80"/);
   assert.match(html, /src="https:\/\//);
-  assert.equal((html.match(/class="skill-badge"/g) ?? []).length, 4);
+  assert.equal((html.match(/<li class=/g) ?? []).length, 4);
 });

@@ -37,7 +37,7 @@ Each task is complete only when its code or document change, focused verificatio
 - [x] M01 — Review slide text and rendered pages, record ambiguities, define this task decomposition. Commit: `docs: define Lab 03 task decomposition`.
 - [x] M02 — Scaffold React 19 + Vite, package scripts, project rules, basic navigation and build check. Commit: `chore: scaffold Lab 03 React application`.
 - [x] M03 — Implement Exercise 1 DeveloperCard and SkillBadge with semantic elements, stable IDs, avatar fallback and focused tests. Commit: `feat(ex1): build semantic developer card`.
-- [ ] M04 — Add Exercise 1 CSS module and verify 375 px layout, keyboard focus and fallback rendering. Commit: `style(ex1): finish responsive developer card`.
+- [x] M04 — Add Exercise 1 CSS module and verify 375 px layout, keyboard focus and fallback rendering. Commit: `style(ex1): finish responsive developer card`.
 - [ ] M05 — Define immutable ScientistDirectory fixtures and validation tests. Commit: `feat(ex2): add scientist fixtures`.
 - [ ] M06 — Implement derived search, minimum IQ and immutable numeric sort; verify edge cases. Commit: `feat(ex2): add filtering and sorting`.
 - [ ] M07 — Implement delete, reset and accessible result status; verify browser workflow. Commit: `feat(ex2): add delete reset and live status`.
@@ -87,7 +87,8 @@ Each task is complete only when its code or document change, focused verificatio
 | M01 | Complete | 35 PDF pages reviewed in text and rendered form; ambiguities and branch plan recorded | This commit |
 | M02 | Complete | npm install: 0 vulnerabilities; npm run build: PASS (Vite 7.3.7) | This commit |
 | M03 | Complete | DeveloperCard semantic tests 2/2 PASS; npm run build PASS; avatar fallback implemented, browser check remains in M04 | This commit |
-| M04–M12 | Not started | — | — |
+| M04 | Complete | 375 px browser: no horizontal overflow; keyboard Tab focus has a visible focus outline; invalid avatar displays BH initials; DeveloperCard tests 2/2 PASS; build PASS | This commit |
+| M05–M12 | Not started | — | — |
 | H1-01–H1-05 | Not started | — | — |
 | H2-01–H2-06 | Not started | — | — |
 | H3-01–H3-05 | Not started | — | — |
