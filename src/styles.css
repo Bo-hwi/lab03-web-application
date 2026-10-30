@@ -1,0 +1,16 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color: #14243b;
+  background: #f4f7fb;
+  line-height: 1.5;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid #0b6efd; outline-offset: 3px; }
+.site-header { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; padding: 1rem max(1rem, calc((100vw - 70rem) / 2)); background: #10243c; color: #fff; }
+.site-header a { color: inherit; }
+.brand { font-weight: 800; font-size: 1.25rem; }
+.site-nav { display: flex; flex-wrap: wrap; gap: 1rem; margin: 0; padding: 0; list-style: none; }
+.page-shell { max-width: 70rem; margin: auto; padding: 2rem 1rem; }
