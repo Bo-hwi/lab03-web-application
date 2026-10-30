@@ -4,7 +4,7 @@ Complete each task separately. The student creates each planned commit manually.
 
 - [ ] Setup: `chore: init react19 vite & rules`
 - [x] Exercise 1: `feat(ex1): implement semantic DeveloperCard and SkillBadge` (implementation ready for student review and commit)
-- [ ] Exercise 1: `style(ex1): add responsive 375px CSS module`
+- [ ] Exercise 1: `style(ex1): add responsive 375px CSS module` (CSS added; browser verification pending)
 - [ ] Exercise 2: `feat(ex2): normalize smartPeople schema with stable IDs`
 - [ ] Exercise 2: `feat(ex2): add search, IQ filter & toSorted`
 - [ ] Exercise 2: `feat(ex2): add delete/reset & live status`

@@ -1,3 +1,4 @@
+import styles from "./DeveloperCard.module.css";
 import { Fragment, useId, useState } from "react";
 import { SkillBadge } from "./SkillBadge.jsx";
 
@@ -20,12 +21,12 @@ export function DeveloperCard({
   }
 
   return (
-    <article aria-labelledby={headingId}>
-      <header>
+    <article className={styles.card} aria-labelledby={headingId}>
+      <header className={styles.header}>
         {secureAvatar && failedUrl !== avatarUrl ? (
           <img src={avatarUrl} width="80" height="80" alt={`Portrait of ${fullName}`}
             onError={() => setFailedUrl(avatarUrl)} />
-        ) : <span aria-label={`Initials for ${fullName}`}>{initials}</span>}
+        ) : <span className={styles.initials} aria-label={`Initials for ${fullName}`}>{initials}</span>}
         <hgroup>
           <h2 id={headingId}>{fullName}</h2>
           <p>{role}</p>
