@@ -1,3 +1,4 @@
+import { DeveloperCard } from "./exercises/DeveloperCard.jsx";
 import { useEffect, useState } from "react";
 
 const exercises = [
@@ -34,7 +35,7 @@ export default function App() {
       </header>
       <main id="main-content" className="page-shell">
         <h1>{page === "home" ? "Production React 19 Lab" : exercises.find((item) => item.id === page)?.label}</h1>
-        <p>Choose an exercise from the navigation.</p>
+        {page === "developer" ? <DeveloperCard /> : <p>Choose an exercise from the navigation.</p>}
       </main>
     </>
   );
