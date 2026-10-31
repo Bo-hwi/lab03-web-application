@@ -53,7 +53,7 @@
 - **Verification:** The selected button and telemetry card were inspected at a 375px viewport. The document had no horizontal overflow.
 - **Lesson:** Check the actual DOM ancestry when choosing where CSS custom properties live.
 
-## Remaining verification limits
+## Manual verification follow-up
 
-- The fixed 220px skeleton reserves space, but a numeric Cumulative Layout Shift score has not been measured.
-- Slow 3G throttling and a screen-reader announcement of the error remain unverified; the browser check confirmed the alert role and visible Retry interaction.
+- On 2026-10-31, the student confirmed completing the Slow 3G, visual stability/CLS and screen-reader announcement checks for Exercise 3, with satisfactory behavior.
+- The earlier browser check independently confirmed the fixed 220px skeleton, alert role and visible Retry interaction. The student's follow-up did not supply a numeric CLS score, exact throttling settings or an announcement transcript; those details are not asserted as measured evidence.

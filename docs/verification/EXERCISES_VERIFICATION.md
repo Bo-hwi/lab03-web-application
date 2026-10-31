@@ -50,4 +50,9 @@
 - Rapid switching between Cerberus Esports and The Expendables was exercised in the browser. A simulated Erangel packet loss produced a visible role=alert error and the Reconnect Satellite (Retry) button.
 - Activating Retry immediately returned the view to LOADING, then displayed the Cerberus Esports Erangel telemetry. The 35% packet loss may cause a later retry to fail again.
 - npm run build, npm run lint and npm test passed after the UI change. The test suite contains six passing tests, including four telemetry service tests.
-- A numeric Cumulative Layout Shift score, Slow 3G profile and screen-reader announcement of the error were not measured in this check.
+- This browser check did not record a numeric Cumulative Layout Shift score, Slow 3G profile or screen-reader announcement. The student's subsequent manual verification is recorded below.
+
+## Exercise 3 — student manual verification (2026-10-31)
+
+- The student confirmed that they completed the remaining Slow 3G, visual stability/CLS and screen-reader announcement checks for Exercise 3 and found the behavior satisfactory.
+- This entry records the student's confirmation. The exact numeric CLS value, throttling settings and screen-reader announcement wording were not provided, so no measurement or transcript is claimed here.
