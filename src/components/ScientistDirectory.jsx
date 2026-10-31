@@ -1,4 +1,5 @@
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { SMART_PEOPLE } from "../data/smartPeople.js";
 
 export function ScientistDirectory() {
@@ -6,6 +7,7 @@ export function ScientistDirectory() {
   const queryId = useId();
   const minIqId = useId();
   const sortId = useId();
+  const resetButtonRef = useRef(null);
   const [people, setPeople] = useState(() => [...SMART_PEOPLE]);
   const [query, setQuery] = useState("");
   const [minIq, setMinIq] = useState(160);
@@ -20,6 +22,21 @@ export function ScientistDirectory() {
     .toSorted((a, b) =>
       sortBy === "age-asc" ? a.age - b.age : b.iq - a.iq
     );
+
+  function deletePerson(personId, event) {
+    const row = event.currentTarget.closest("li");
+    const nextFocusTarget =
+      row?.nextElementSibling?.querySelector("button") ??
+      row?.previousElementSibling?.querySelector("button") ??
+      resetButtonRef.current;
+
+    flushSync(() => {
+      setPeople((currentPeople) =>
+        currentPeople.filter((person) => person.id !== personId)
+      );
+    });
+    nextFocusTarget?.focus();
+  }
 
   return (
     <section aria-labelledby={headingId}>
@@ -53,12 +70,16 @@ export function ScientistDirectory() {
           <option value="iq-desc">IQ, highest first</option>
           <option value="age-asc">Age, youngest first</option>
         </select>
-        <button type="button" onClick={() => setPeople([...SMART_PEOPLE])}>
+        <button
+          ref={resetButtonRef}
+          type="button"
+          onClick={() => setPeople([...SMART_PEOPLE])}
+        >
           Reset list
         </button>
       </form>
       <output role="status" aria-live="polite">
-        Found {visiblePeople.length} pioneers
+        Found {visiblePeople.length} {visiblePeople.length === 1 ? "pioneer" : "pioneers"}
       </output>
       {visiblePeople.length === 0 ? (
         <p>No pioneers match the current filters.</p>
@@ -70,11 +91,7 @@ export function ScientistDirectory() {
               <button
                 type="button"
                 aria-label={`Delete ${person.name}`}
-                onClick={() =>
-                  setPeople((currentPeople) =>
-                    currentPeople.filter((item) => item.id !== person.id)
-                  )
-                }
+                onClick={(event) => deletePerson(person.id, event)}
               >
                 Delete
               </button>

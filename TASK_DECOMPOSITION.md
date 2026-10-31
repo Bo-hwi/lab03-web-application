@@ -8,6 +8,7 @@ Complete and verify each task separately; record each verified step in its own c
 - [x] Exercise 2: `feat(ex2): normalize smartPeople schema with stable IDs` (Stop 1: six static records and an ID-keyed list; committed as 0d6e421)
 - [x] Exercise 2: `feat(ex2): add search, IQ filter & toSorted` (Stop 2: labelled search, numeric IQ filter and derived sorting; committed as cf51d64)
 - [x] Exercise 2: `feat(ex2): add delete/reset & live status` (Stop 3: immutable deletion by ID; reset preserves filters; live count and empty state)
+- [x] Exercise 2: `fix(ex2): preserve focus after deleting a pioneer` (browser checked next-row focus, last-row fallback, reset, IQ filtering, age sorting and 375px layout)
 - [ ] Exercise 3: `feat(ex3): implement PUBG VN 4-state telemetry & AbortController`
 - [ ] Exercise 3: `feat(ex3): add skeleton UI & retry alert`
 
