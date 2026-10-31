@@ -6,12 +6,13 @@ export function ScientistDirectory() {
   const queryId = useId();
   const minIqId = useId();
   const sortId = useId();
+  const [people, setPeople] = useState(() => [...SMART_PEOPLE]);
   const [query, setQuery] = useState("");
   const [minIq, setMinIq] = useState(160);
   const [sortBy, setSortBy] = useState("iq-desc");
 
   const normalizedQuery = query.trim().toLocaleLowerCase("en");
-  const visiblePeople = SMART_PEOPLE
+  const visiblePeople = people
     .filter((person) =>
       person.name.toLocaleLowerCase("en").includes(normalizedQuery) &&
       person.iq >= minIq
@@ -52,14 +53,35 @@ export function ScientistDirectory() {
           <option value="iq-desc">IQ, highest first</option>
           <option value="age-asc">Age, youngest first</option>
         </select>
+        <button type="button" onClick={() => setPeople([...SMART_PEOPLE])}>
+          Reset list
+        </button>
       </form>
-      <ul>
-        {visiblePeople.map((person) => (
-          <li key={person.id}>
-            {person.name} — IQ {person.iq}, age {person.age}
-          </li>
-        ))}
-      </ul>
+      <output role="status" aria-live="polite">
+        Found {visiblePeople.length} pioneers
+      </output>
+      {visiblePeople.length === 0 ? (
+        <p>No pioneers match the current filters.</p>
+      ) : (
+        <ul>
+          {visiblePeople.map((person) => (
+            <li key={person.id}>
+              {person.name} — IQ {person.iq}, age {person.age}{" "}
+              <button
+                type="button"
+                aria-label={`Delete ${person.name}`}
+                onClick={() =>
+                  setPeople((currentPeople) =>
+                    currentPeople.filter((item) => item.id !== person.id)
+                  )
+                }
+              >
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </section>
   );
 }
