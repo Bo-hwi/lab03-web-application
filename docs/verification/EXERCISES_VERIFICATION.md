@@ -33,3 +33,12 @@
 - Minimum IQ 200 yielded three people. Age ascending displayed William Sidis, Albert Einstein, then Johann Goethe. At a 375px viewport, the document scroll width was 375px, so the page had no horizontal overflow.
 - `npm run build` and `npm run lint` passed after the focus fix; the source contains no `useEffect`, `<div>`, or `http://` in ScientistDirectory.jsx. The existing automated suite still covers DeveloperCard only. Actual screen-reader announcements and React DevTools render-pass count remain unverified; the `aria-live` output and stable ID keys were inspected in the browser DOM.
 - Exercise 2 failure analysis and outstanding manual checks are recorded in `AI_FAILURE_AUDIT.md`.
+
+## Exercise 3 — PUBG Vietnam Series telemetry (step 1, 2026-10-31)
+
+- Branch: ex3, based on the completed ex2 branch.
+- Three stable squad IDs (ces, te, ge) and matching same-origin JSON response files were added. Erangel and Miramar simulate 35% packet loss; Taego remains reliable in the simulation.
+- PubgMatchTelemetry models IDLE, LOADING, SUCCESS and ERROR. Selecting another squad unmounts the old request view, and effect cleanup aborts its AbortController. Aborted responses cannot update the visible squad.
+- The initial loading and error views are deliberately plain in this commit. The fixed-height skeleton, accessible retry control and responsive styling belong to the next task.
+- npm run build: passed. npm run lint: passed. npm test: 6 passed, 0 failed (including four telemetry service tests).
+- Browser interaction, Slow 3G, 375px layout, screen-reader behavior and visual stability remain to be checked after the UI task.
