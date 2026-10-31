@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from "./components/PubgMatchTelemetry.module.css";
 import { DeveloperCard } from "./components/DeveloperCard.jsx";
 import { PubgMatchTelemetry } from "./components/PubgMatchTelemetry.jsx";
 import { ScientistDirectory } from "./components/ScientistDirectory.jsx";
@@ -16,9 +17,9 @@ export default function App() {
     <main>
       <DeveloperCard metrics={{ Projects: 3, Experience: "2 years" }} skills={skills} />
       <ScientistDirectory />
-      <section aria-label="PUBG Vietnam Series squads">
+      <section className={styles.exercise} aria-label="PUBG Vietnam Series squads">
         <h2>PUBG Vietnam Series</h2>
-        <ul>
+        <ul className={styles.squadList}>
           {PUBG_VN_SQUADS.map((squad) => (
             <li key={squad.id}>
               <button
@@ -36,4 +37,3 @@ export default function App() {
     </main>
   );
 }
-

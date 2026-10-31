@@ -36,3 +36,24 @@
 3. Exercise zero, one, and multiple results through the browser, including keyboard focus after deletion.
 4. Run build, lint, existing tests, and `git diff --check`; record the limits of each result.
 5. Commit only the reviewed change and its matching task and verification notes.
+
+# Exercise 3 AI Failure Audit
+
+## Finding 1: Effect-driven loading update failed lint
+
+- **Observed failure:** An early telemetry implementation set LOADING synchronously inside useEffect. The React lint rule rejected that update.
+- **Correction:** The component now derives the visible LOADING state from the selected squad and retry generation. The effect owns only the asynchronous request and AbortController cleanup.
+- **Verification:** npm run lint passed. Browser checks confirmed LOADING appears immediately after squad selection and Retry.
+- **Lesson:** Keep the effect responsible for external work; derive render state from current props and request generation where possible.
+
+## Finding 2: Squad button colors initially missed their custom properties
+
+- **Observed failure:** The first CSS module scoped color variables to the telemetry card, while squad buttons were siblings outside that card.
+- **Correction:** Define the custom properties on the enclosing exercise section so both buttons and card inherit them.
+- **Verification:** The selected button and telemetry card were inspected at a 375px viewport. The document had no horizontal overflow.
+- **Lesson:** Check the actual DOM ancestry when choosing where CSS custom properties live.
+
+## Remaining verification limits
+
+- The fixed 220px skeleton reserves space, but a numeric Cumulative Layout Shift score has not been measured.
+- Slow 3G throttling and a screen-reader announcement of the error remain unverified; the browser check confirmed the alert role and visible Retry interaction.

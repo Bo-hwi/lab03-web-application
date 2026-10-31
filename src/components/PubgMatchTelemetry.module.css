@@ -1,0 +1,161 @@
+.exercise {
+  --telemetry-surface: #142841;
+  --telemetry-ink: #f4f8ff;
+  --telemetry-muted: #c6d7eb;
+  --telemetry-border: #557594;
+  --telemetry-accent: #5ecdf5;
+  --telemetry-selected: #17496b;
+  width: min(100%, 60rem);
+  margin: 2rem auto;
+  padding: clamp(1rem, 3vw, 2rem);
+  overflow-wrap: anywhere;
+}
+
+.exercise > h2 {
+  margin: 0 0 1rem;
+}
+
+.squadList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+.squadList li {
+  min-width: 0;
+}
+
+.squadList button {
+  min-height: 44px;
+  max-width: 100%;
+  padding: .65rem 1rem;
+  border: 1px solid var(--telemetry-border);
+  border-radius: .6rem;
+  background: var(--telemetry-surface);
+  color: var(--telemetry-ink);
+  font-weight: 650;
+}
+
+.squadList button[aria-pressed="true"] {
+  border-color: var(--telemetry-accent);
+  background: var(--telemetry-selected);
+  color: var(--telemetry-ink);
+}
+
+.telemetry {
+  --telemetry-surface: #142841;
+  --telemetry-ink: #f4f8ff;
+  --telemetry-muted: #c6d7eb;
+  --telemetry-border: #557594;
+  --telemetry-accent: #5ecdf5;
+  --telemetry-selected: #17496b;
+  color: var(--telemetry-ink);
+  background: var(--telemetry-surface);
+  border: 1px solid var(--telemetry-border);
+  border-radius: 1rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
+}
+
+.header h2, .card h3, .error h3 {
+  margin: .15rem 0 .7rem;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--telemetry-accent);
+  font-size: .85rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.stateFrame {
+  min-height: 22rem;
+}
+
+.stateFrame > p {
+  color: var(--telemetry-muted);
+}
+
+.skeleton {
+  box-sizing: border-box;
+  height: 220px;
+  padding: 1.25rem;
+  border: 1px solid var(--telemetry-border);
+  border-radius: .8rem;
+  background: #174063;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.skeleton span {
+  display: block;
+  height: 1.15rem;
+  border-radius: .25rem;
+  background: linear-gradient(100deg, #285a7c 25%, #427da2 50%, #285a7c 75%);
+  background-size: 200% 100%;
+  animation: blue-zone-pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton .skeletonHeading { width: 55%; height: 1.8rem; }
+.skeletonLine { width: 100%; }
+.skeletonLineShort { width: 70%; }
+
+.card, .error {
+  min-width: 0;
+  padding: 1.25rem;
+  border: 1px solid var(--telemetry-border);
+  border-radius: .8rem;
+  background: #1d3652;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: .45rem 1.1rem;
+  margin: 1rem 0 0;
+}
+
+.metrics dt {
+  color: var(--telemetry-muted);
+}
+
+.metrics dd {
+  min-width: 0;
+  margin: 0;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.error {
+  border-color: #e5a7a7;
+}
+
+.error button {
+  min-height: 44px;
+  margin-top: .5rem;
+  padding: .65rem 1rem;
+  border: 0;
+  border-radius: .5rem;
+  background: #75d7f5;
+  color: #062033;
+  font-weight: 750;
+}
+
+@keyframes blue-zone-pulse {
+  to { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton span { animation: none; }
+}
+
+@media (max-width: 30rem) {
+  .exercise { margin-block: 1rem; }
+  .squadList li, .squadList button { width: 100%; }
+  .stateFrame { min-height: 24rem; }
+}

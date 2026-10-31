@@ -42,3 +42,12 @@
 - The initial loading and error views are deliberately plain in this commit. The fixed-height skeleton, accessible retry control and responsive styling belong to the next task.
 - npm run build: passed. npm run lint: passed. npm test: 6 passed, 0 failed (including four telemetry service tests).
 - Browser interaction, Slow 3G, 375px layout, screen-reader behavior and visual stability remain to be checked after the UI task.
+
+## Exercise 3 — skeleton and retry (step 2, 2026-10-31)
+
+- The LOADING view reserved a 220px skeleton card, confirmed from the browser element bounds. Its pulse animation is disabled when reduced motion is requested.
+- At a 375px browser viewport, the document scroll width was 360px, so there was no horizontal overflow in the Exercise 3 view.
+- Rapid switching between Cerberus Esports and The Expendables was exercised in the browser. A simulated Erangel packet loss produced a visible role=alert error and the Reconnect Satellite (Retry) button.
+- Activating Retry immediately returned the view to LOADING, then displayed the Cerberus Esports Erangel telemetry. The 35% packet loss may cause a later retry to fail again.
+- npm run build, npm run lint and npm test passed after the UI change. The test suite contains six passing tests, including four telemetry service tests.
+- A numeric Cumulative Layout Shift score, Slow 3G profile and screen-reader announcement of the error were not measured in this check.

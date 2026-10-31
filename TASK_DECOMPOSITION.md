@@ -11,7 +11,6 @@ Complete and verify each task separately; record each verified step in its own c
 - [x] Exercise 2: `fix(ex2): preserve focus after deleting a pioneer` (browser checked next-row focus, last-row fallback, reset, IQ filtering, age sorting and 375px layout)
 - [x] Exercise 2: `docs(ex2): add AI failure audit` (observed focus and status wording defects, corrections, verification limits)
 - [x] Exercise 3: `feat(ex3): implement PUBG VN 4-state telemetry & AbortController` (three squad records, four-state request lifecycle, 35% Erangel/Miramar packet loss and abort on squad switch; build, lint and tests passed)
-- [ ] Exercise 3: `feat(ex3): add skeleton UI & retry alert`
+- [x] Exercise 3: `feat(ex3): add skeleton UI & retry alert` (220px skeleton, accessible retry, 375px browser verification; build, lint and tests passed)
 
 The DeveloperCard implementation already exists in Git history; reassess it against these rules before marking its tasks complete.
-
