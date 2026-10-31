@@ -13,12 +13,7 @@ export function DeveloperCard({
   const [failedUrl, setFailedUrl] = useState(null);
   const initials = fullName.trim().split(/\s+/).filter(Boolean).slice(0, 2)
     .map((part) => part[0].toUpperCase()).join("");
-  let secureAvatar = false;
-  try {
-    secureAvatar = new URL(avatarUrl).protocol === "https:";
-  } catch {
-    secureAvatar = false;
-  }
+  const secureAvatar = hasHttpsProtocol(avatarUrl);
 
   return (
     <article className={styles.card} aria-labelledby={headingId}>
@@ -42,4 +37,12 @@ export function DeveloperCard({
       </ul>
     </article>
   );
+}
+
+function hasHttpsProtocol(url) {
+  try {
+    return new URL(url).protocol === "https:";
+  } catch {
+    return false;
+  }
 }
