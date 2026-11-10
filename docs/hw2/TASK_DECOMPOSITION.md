@@ -2,8 +2,8 @@
 
 ## Planning status and scope
 
-Planning prepared on 2026-11-11 (Asia/Saigon). H2-T1 implementation has passed Senior Review. H2-T2 was explicitly approved, implemented and verified with mocks; it now awaits Senior Review.
-H2-T3 through H2-T7 have not started and require approval before implementation.
+Planning prepared on 2026-11-11 (Asia/Saigon). H2-T1 and H2-T2 have passed Senior Review. H2-T3 was explicitly approved, implemented and verified automatically; it now awaits Senior Review with browser/Profiler checks pending.
+H2-T4 through H2-T7 have not started and require approval before implementation.
 HW1 is complete according to the student and is outside this work's scope. Do not redo it.
 
 - Common base: `ex3` at `4195b26ed903ecffdfdfa5b20f4ed1ca70e0fe4d`.
@@ -87,7 +87,7 @@ These are proposals, not already approved implementation contracts.
 
 ## H2-T2 - Polyphonic audio engine and FIFO voice management
 
-- Status: IMPLEMENTED AND AUTOMATED VERIFICATION PASSED - AWAITING SENIOR REVIEW. Browser/audio checks deferred until integration.
+- Status: APPROVED BY SENIOR REVIEW in the H2-T3 task instruction. Browser/audio checks remain pending.
 - Objective: Own Web Audio resources and manage deterministic eight-voice polyphony.
 - Scope: Lazy user-gesture context unlock/resume; FIFO Map; note ownership; ADSR gain; release/steal; stopAll/dispose; headroom and idempotent cleanup. No React piano UI.
 - Dependencies: T1; approved active/tail limit, envelope and Stop contracts.
@@ -113,16 +113,29 @@ These are proposals, not already approved implementation contracts.
 
 ## H2-T3 - Accessible, memoized 88-key keyboard
 
-- Status: PENDING.
+- Status: IMPLEMENTED; AUTOMATED GATES PASSED; AWAITING SENIOR REVIEW. Browser/physical audio/Profiler PENDING due to tooling blocker.
 - Objective: Provide reliable, isolated key interaction for all 88 notes.
 - Scope: React.memo keys; stable callbacks/scalar props; immutable pressed state; semantic list/buttons; pointer capture/cancel and keyboard activation/navigation; visible held/sounding distinction if required by contracts.
 - Dependencies: T1, T2.
-- Files: create P/PianoKey.jsx, P/PianoKeyboard.jsx, P/usePianoInput.js, initial CSS Modules and appropriate interaction tests; update HW2 documents. Temporary integration only in the intended HW2 view when approved, never HW1.
+- Files: P/PianoKey.jsx, P/PianoKeyboard.jsx, P/PianoKeyboard.module.css, P/pianoInput.js, P/usePianoInput.js; tests/hw2-input.test.js, tests/hw2-keyboard.test.js, tests/piano-keyboard-test.html and .jsx; HW2 documents. App and existing H2-T1/T2 code unchanged.
 - Acceptance: 88 generated named buttons with type=button; aria-pressed reflects documented state; all notes keyboard reachable; no duplicate trigger from native click plus custom handlers; no stuck note after release outside, cancel, blur or editable typing; stable note entity IDs; unrelated keys do not update.
 - Automated verification: input/ownership tests for down/up, repeat, pointercancel, editable targets, native activation deduplication and release-all; SSR semantic checks for the actual new component; build/lint. Browser automation dependencies require separate justification before installation.
 - Manual browser verification: keyboard-only navigation and Enter/Space, multi-pointer chord, drag-out release, focus loss, Vietnamese IME where available; initial Profiler check after mount; identify any remaining screen-reader/375px work for T6.
-- Proposed commit: `feat(hw2): add accessible memoized 88-key keyboard`.
+- Actual commit: `524404ad9570a1fb5a96bb49cef3013e7e45f3c3` - `feat(hw2): implement accessible memoized piano keyboard`.
 - Checkpoint: shared gate; capture Profiler evidence or mark it PENDING; stop for review.
+
+### H2-T3 implementation contract and limits
+
+- PianoKeyboard maps the stable PIANO_NOTES entities, keyed by note.id. Memoized PianoKey receives only a stable note object, per-key boolean and stable controller callbacks. The parent may render; untouched key props stay referentially stable. Profiler measurement has NOT been performed and isolation is not claimed empirically proven.
+- createPianoInput owns one lazy synth and immutable cached snapshots. usePianoInput binds useSyncExternalStore and a window blur effect; cleanup removes the listener, releases notes and disposes the owned engine. StrictMode-like detach/attach can create a fresh engine. createSynth dependency injection is mount-time only; remount the keyboard to replace it.
+- Owner IDs are pointer:<pointerId> and keyboard:<midi>:<Enter|Space>. Multiple owners on the same MIDI share one engine token until the last owner releases. Distinct pitches remain independent. FIFO reconciliation retires stolen owners and their pressed indicators; old pending results release only their exact returned token.
+- Pointer up/cancel/leave/lost capture release ownership; captured-pointer move outside the button bounds also releases it. Button blur releases keyboard owners only, so focusing another touched key does not release existing touch owners. Window blur releases all and invalidates pending startups. Unmount also closes the engine.
+- Enter/Space prevent native activation, suppress repeat/composition and release on keyup. Pointer-generated clicks are ignored; detail-zero assistive activation uses an owned tap. ArrowLeft/ArrowRight/Home/End move focus among notes. No window-level letter shortcuts or editable-field interception added.
+- Buttons have musical accessible names, explicit type, logical aria-pressed, visible On text and focus styles. Error state is rendered with role=alert and active count with a polite status output. CSS Modules/root tokens provide initial keyboard styling and a contained scroll viewport, not a completed T6 responsive/WCAG certification.
+- Node tests cover controller behavior with the actual T2 engine and mock AudioContext; SSR verifies the actual keyboard markup; direct handler tests verify event wiring. They do not dispatch browser DOM events or mount React effects in a real browser.
+- Final focused tests 20/20; full suite 62/62; lint/build/diff checks exit 0. One genuine test-infrastructure failure (unneeded Vite WebSocket listener collision) was observed, fixed and logged separately.
+- Browser fixture exists under tests/piano-keyboard-test.html and .jsx, isolated from App. Vite fixture server started successfully, then was stopped after computer-use could not safely bind Chrome. No browser interaction, physical audio or Profiler PASS.
+- H2-T4/T5/T6/T7 NOT STARTED. Stop for Senior Review.
 
 ## H2-T4 - Immutable note recording and event timeline
 
