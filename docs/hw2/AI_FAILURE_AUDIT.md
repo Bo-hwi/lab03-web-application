@@ -2,9 +2,9 @@
 
 ## Current evidence
 
-Prepared 2026-11-11 (Asia/Saigon); updated after the approved H2-T2 implementation and audit checkpoint.
-Verified, reproducible HW2 AI-generated failures recorded: **0**.
-Evidence gap against a three-failure target: **3**. This is a truthful gap, not an instruction to manufacture bugs.
+Prepared 2026-11-11 (Asia/Saigon); updated after the approved H2-T3 implementation and audit checkpoint.
+Verified, reproducible HW2 AI-generated failures recorded: **1**, in test infrastructure; no piano product failure has been demonstrated.
+Evidence gap against a three-failure target: **2**. If the instructor requires product failures exclusively, that narrower count is still 0; do not misrepresent the category.
 Historical HW1/Exercise findings and defects in assignment reference code are not automatically HW2 AI failures.
 
 ## Recording policy
@@ -39,8 +39,8 @@ No fabricated example failure is prefilled.
 | Task | Review state | New verified failures | Evidence / notes |
 | --- | --- | --- | --- |
 | H2-T1 | SENIOR APPROVED in H2-T2 instruction | 0 | 13/13 focused tests, 19/19 full suite; lint/build/diff checks exit 0; implementation cb5512afa9e7c722bd7b270a6d7dd084c8794841 |
-| H2-T2 | REVIEWED - awaiting Senior Review | 0 | 23/23 focused tests, 42/42 full suite; lint/build/diff checks exit 0; implementation c52d471ef07efbe0bff6277af1d983c6013f10ce |
-| H2-T3 | NOT STARTED | Not assessed | No implementation |
+| H2-T2 | SENIOR APPROVED in H2-T3 instruction | 0 | 23/23 focused tests, 42/42 full suite; lint/build/diff checks exit 0; implementation c52d471ef07efbe0bff6277af1d983c6013f10ce |
+| H2-T3 | REVIEWED - awaiting Senior Review | 1 test-infrastructure finding | Final focused 20/20, full 62/62, lint/build/diff checks exit 0; implementation 524404ad9570a1fb5a96bb49cef3013e7e45f3c3 |
 | H2-T4 | NOT STARTED | Not assessed | No implementation |
 | H2-T5 | NOT STARTED | Not assessed | No implementation |
 | H2-T6 | NOT STARTED | Not assessed | No implementation |
@@ -69,3 +69,23 @@ Slide 28's standalone PolyphonicSynth calls noteOff without defining it; slide 2
 - FIFO ownership, cleanup, concurrent startup/disposal and gain staging were reviewed/tested with mocks. Browser audio, hardware output, clipping/click measurements and GC/resource profiling were not performed; these remain verification gaps rather than asserted failures.
 - Verified HW2 failure total remains 0; gap against three remains 3. Reference-slide omissions and Git line-ending warnings remain excluded.
 - This is a real zero-failure checkpoint update and is committed separately under the approved policy, without creating an empty commit or inventing a failure to justify it.
+
+## Failure #01 - Unnecessary SSR WebSocket listener collided with another Vite server
+
+- Task/date: H2-T3, 2026-11-11 (Asia/Saigon), Windows, Node v26.12.1, Vite 7.3.7.
+- Provenance: student requested focused tests using existing tooling without new dependencies. AI generated tests/hw2-keyboard.test.js with the initial uncommitted line `createServer({ server: { middlewareMode: true }, appType: "custom" })`, following the older DeveloperCard SSR test pattern without isolating network listeners.
+- Expected: SSR transformation/render tests should not compete for a shared WebSocket port.
+- Observed proof: the full `npm.cmd test` run during concurrent focused/full verification and a fixture dev-server session emitted the exact diagnostic `WebSocket server error: Port 24678 is already in use`. It still exited 0 with 62 passed, 0 failed. This was an observed test setup error, not a failing assertion or an audible piano defect.
+- Reproduction: use the initial configuration for the new SSR suite while another middleware-mode Vite instance owns its default HMR port (the existing DeveloperCard suite also creates a Vite instance); run the new/full tests concurrently. The unneeded listener attempts to bind the occupied port. No intentionally defective product code was introduced for audit evidence.
+- Cause: middleware mode does not by itself disable Vite WebSocket startup. Installed Vite config.js createWebSocketServer explicitly skips listener setup for server.ws===false. The new test needed transforms, not HMR/network access.
+- Correction: configure the new suite with `server: { middlewareMode: true, ws: false, hmr: false }`; leave existing unrelated tests unchanged and retain after-hook server.close().
+- Fix commit: `524404ad9570a1fb5a96bb49cef3013e7e45f3c3` (contains implementation, tests and this pre-commit correction).
+- Regression evidence: reran focused tests 20/20, full suite 62/62, lint/build/diff checks exit 0. Final full-suite output no longer contained the WebSocket diagnostic. No browser pass is implied.
+- Impact/category: low-severity generated test-infrastructure defect; scope is listener/resource isolation and noisy diagnostics. Do not relabel it as FIFO, ownership, rendering or accessibility failure.
+
+## H2-T3 checkpoint and evidence gaps
+
+- Input ownership, pending token races, repeated activation, blur/unmount cleanup and SSR semantics were tested. No reproducible product defect was observed in those checks; no additional numbered failures added.
+- Browser host was unavailable; native fallback ended because computer-use could not safely determine Chrome's URL. This tooling blocker is not a generated piano bug and is excluded from the failure count.
+- Real DOM dispatch, client React effect lifecycle, empirical memo isolation, physical sound, focus/375px layout, screen reader and Lighthouse remain pending. Code/SSR/mocks do not fill these gaps.
+- Current count: one genuine test-infrastructure failure, two short of three overall; zero demonstrated product failures. H2-T4 NOT STARTED; stop for Senior Review.
