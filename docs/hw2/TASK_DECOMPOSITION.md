@@ -2,8 +2,8 @@
 
 ## Planning status and scope
 
-Planning prepared on 2026-11-11 (Asia/Saigon). H2-T1 was subsequently approved and implemented; its verification passed and it now awaits Senior Review.
-H2-T2 through H2-T7 have not started and require approval before implementation.
+Planning prepared on 2026-11-11 (Asia/Saigon). H2-T1 implementation has passed Senior Review. H2-T2 was explicitly approved, implemented and verified with mocks; it now awaits Senior Review.
+H2-T3 through H2-T7 have not started and require approval before implementation.
 HW1 is complete according to the student and is outside this work's scope. Do not redo it.
 
 - Common base: `ex3` at `4195b26ed903ecffdfdfa5b20f4ed1ca70e0fe4d`.
@@ -74,7 +74,7 @@ These are proposals, not already approved implementation contracts.
 
 ## H2-T1 - Piano note generation and recording timeline contracts
 
-- Status: IMPLEMENTED AND VERIFIED - AWAITING SENIOR REVIEW.
+- Status: APPROVED BY SENIOR REVIEW in the H2-T2 task instruction.
 - Objective: Establish correct note data and explicit timing/state contracts before the engine/UI.
 - Scope: Generated immutable note entities; MIDI/name/color/frequency helpers; JSDoc note, recorded event, ownership and transport contracts; resolve proposals 1-4 and 8 before dependent work.
 - Dependencies: T1 implementation explicitly approved; core timeline rules confirmed in the student's task instruction. Remaining audio/ownership/transport decisions deferred to their implementation tasks.
@@ -87,16 +87,29 @@ These are proposals, not already approved implementation contracts.
 
 ## H2-T2 - Polyphonic audio engine and FIFO voice management
 
-- Status: PENDING.
+- Status: IMPLEMENTED AND AUTOMATED VERIFICATION PASSED - AWAITING SENIOR REVIEW. Browser/audio checks deferred until integration.
 - Objective: Own Web Audio resources and manage deterministic eight-voice polyphony.
 - Scope: Lazy user-gesture context unlock/resume; FIFO Map; note ownership; ADSR gain; release/steal; stopAll/dispose; headroom and idempotent cleanup. No React piano UI.
 - Dependencies: T1; approved active/tail limit, envelope and Stop contracts.
-- Files: create P/audio/PolyphonicSynth.js, tests/hw2-synth.test.js and a fake AudioContext test helper if needed; update HW2 documents.
+- Files: P/audio/PolyphonicSynth.js, tests/hw2-synth.test.js, tests/helpers/mockAudio.js; these HW2 documents.
 - Acceptance: eight active voices maximum; ninth steals exact oldest; released/retriggered notes obey contract; releasing voice A cannot delete a replacement voice B for the same MIDI; nodes disconnected on end/dispose; no context created during render; no delayed resume can sound after disposal.
 - Automated verification: injected fake context/clock; eight/nine-note order; duplicate ownership; release tails and stale onended; stop/dispose twice; suspended resume success/failure and dispose race; envelope scheduling and bounded resource counts; build/lint.
 - Manual browser verification: Once integrated, hear eight-note chords, ninth-note steal, release and Stop; inspect suspended/resumed audio and resources. Until T3/T6, record these checks BLOCKED BY UI, not PASS. Do not add a throwaway product page just to claim testing.
-- Proposed commit: `feat(hw2): implement polyphonic audio engine and FIFO voices`.
+- Actual commit: `c52d471ef07efbe0bff6277af1d983c6013f10ce` - `feat(hw2): implement FIFO polyphonic audio engine`.
 - Checkpoint: shared gate; preserve real failures/evidence and stop for review.
+
+### H2-T2 engine contract and engineering assumptions
+
+- One exclusive, lazily created AudioContext per engine. User-gesture callers invoke noteOn(midi); concurrent calls share a pending resume. Frequency comes from the existing H2-T1 midiToFrequency function.
+- noteOn returns a Promise resolving to `{ok:true, voice}` or `{ok:false, error}`; errors are handled inside the engine, not left as rejected startup promises. Inspect the result and lastError. Tokens are frozen objects `{id,midi}`; noteOff requires the exact returned object, not just MIDI or a copied ID.
+- Active voices use insertion-ordered Map; max eight. Same MIDI retriggers with a fresh token at FIFO tail and releases the prior token. Ninth distinct note releases oldest. Logical snapshots remove stolen/released voices immediately so the future UI can reconcile pressed/sounding indicators. No React pressed state exists in T2.
+- Release voices have a separate bounded Map of eight tails. Thus up to 16 scheduled/sounding oscillator paths may overlap; there is no eight-physical-oscillator claim. Overflow truncates/disconnects the oldest tail to bound resources.
+- Assumed timbre/envelope: sine wave; 5ms linear attack from 0.0001 to 1; 80ms linear decay to sustain 0.65; 40ms exponential release to 0.0001. Releasing mid-attack/decay anchors its analytically evaluated current level before cancelling future automation.
+- Master gain is 0.05: unit-peak sine times at most 16 envelope-bounded paths gives a conservative peak bound of 0.8. This is an engineering bound/mock assertion, not a measured physical-audio clipping result. Tails truncated under overload and immediate Stop/dispose can produce audible discontinuities; listen during integration.
+- stopAll immediately silences/disconnects active voices and tails and invalidates pending noteOn generation; it leaves context reusable. dispose additionally prevents future starts and closes context. Repeated/concurrent calls are safe; await its result. If close rejects, output stays disconnected and a later dispose retries close; do not claim context closure until success.
+- End callbacks disconnect oscillator and gain and cannot remove a replacement voice. No timers, UI event listeners, recorder, sequencer or React components added.
+- Verification: 23 focused tests including all T2-01 through T2-15; full suite 42/42; lint/build and staged/working diff checks exit 0. Zero observed AI-generated failures; see VERIFICATION.md and AI_FAILURE_AUDIT.md.
+- H2-T3 NOT STARTED. Stop for Senior Review.
 
 ## H2-T3 - Accessible, memoized 88-key keyboard
 
