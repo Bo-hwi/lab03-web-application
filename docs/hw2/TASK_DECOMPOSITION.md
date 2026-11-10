@@ -2,8 +2,8 @@
 
 ## Planning status and scope
 
-Planning prepared on 2026-11-11 (Asia/Saigon). Feature implementation has not started.
-All H2-T1 through H2-T7 tasks are PENDING SENIOR APPROVAL. Do not begin H2-T1 until approved.
+Planning prepared on 2026-11-11 (Asia/Saigon). H2-T1 was subsequently approved and implemented; its verification passed and it now awaits Senior Review.
+H2-T2 through H2-T7 have not started and require approval before implementation.
 HW1 is complete according to the student and is outside this work's scope. Do not redo it.
 
 - Common base: `ex3` at `4195b26ed903ecffdfdfa5b20f4ed1ca70e0fe4d`.
@@ -14,6 +14,17 @@ HW1 is complete according to the student and is outside this work's scope. Do no
 - Source root proposed below: `src/homeworks/GrandPiano88/` (abbreviated P).
 - Test files are proposed paths, not existing or implemented tests.
 - Use JavaScript/JSX and JSDoc contracts; PDF TypeScript examples do not require a migration.
+
+### H2-T1 approval and completion update
+
+- Policy commit: `2083657f60b84a54608a2d5d89430a595d1584e3`. Approved HW2 auto-commit policy supersedes the older manual-commit procedure preserved below.
+- Implementation commit: `cb5512afa9e7c722bd7b270a6d7dd084c8794841`.
+- The student approved performance.now() timing, first delta from recording start, later deltas from previous note-on, overlap/chord preservation, deterministic equal-timestamp order, held-note finalization at Stop, and immutable serializable events.
+- Implemented only pure note data, event validation/snapshot creation, onset ordering and tests. No clock acquisition, recorder, replay, React component or Web Audio engine was added.
+- Final serialized events have exactly four fields. Internal onsetOrder metadata is separate; event/UI identity for a future recording log remains a T4 concern.
+- Duplicate input ownership, stolen-note duration and transport policies remain open for T2/T4/T5. They do not block the approved T1 data contracts.
+- Focused tests 13/13; full suite 19/19; lint/build and working/staged diff checks exit 0. See VERIFICATION.md for commands, scope and limits. Audit checkpoint found zero observed AI-generated failures.
+- Stop here for Senior Review. H2-T2 is not authorized by this completion.
 
 ## Assignment requirements and traceability
 
@@ -63,15 +74,15 @@ These are proposals, not already approved implementation contracts.
 
 ## H2-T1 - Piano note generation and recording timeline contracts
 
-- Status: PENDING SENIOR APPROVAL.
+- Status: IMPLEMENTED AND VERIFIED - AWAITING SENIOR REVIEW.
 - Objective: Establish correct note data and explicit timing/state contracts before the engine/UI.
 - Scope: Generated immutable note entities; MIDI/name/color/frequency helpers; JSDoc note, recorded event, ownership and transport contracts; resolve proposals 1-4 and 8 before dependent work.
-- Dependencies: Approval to begin T1 and review of open decisions.
-- Files: create P/notes.js, P/contracts.js, tests/hw2-notes.test.js; update these HW2 documents.
+- Dependencies: T1 implementation explicitly approved; core timeline rules confirmed in the student's task instruction. Remaining audio/ownership/transport decisions deferred to their implementation tasks.
+- Files: P/notes.js, P/contracts.js, tests/hw2-notes.test.js, tests/hw2-contracts.test.js; these HW2 documents.
 - Acceptance: exactly 88 unique stable note entities covering MIDI 21-108, endpoints A0/C8, 52/36 split; A4=440; no hardcoded 88-tag/data list. Contracts explain delta origin, overlaps, repeated MIDI, open notes and speed scaling.
 - Automated verification: Node tests for all MIDI values/counts/IDs/color cycle, endpoint naming, frequency formula and reference pitches with numeric tolerance; build/lint. No mirror-only assertions.
 - Manual browser verification: No new UI in this task; browser key/audio checks NOT APPLICABLE until T3/T6. Review contracts and generated data with the senior; do not label this browser PASS.
-- Proposed commit: `feat(hw2): define piano notes and recording timeline contracts`.
+- Actual commit: `cb5512afa9e7c722bd7b270a6d7dd084c8794841` - `feat(hw2): define piano notes and sequence timing contracts`.
 - Checkpoint: shared verification and genuine-failure audit gate above; stop for review.
 
 ## H2-T2 - Polyphonic audio engine and FIFO voice management

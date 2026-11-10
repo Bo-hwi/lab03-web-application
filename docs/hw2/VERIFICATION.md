@@ -2,8 +2,8 @@
 
 ## Evidence rules
 
-Prepared 2026-11-11 (Asia/Saigon). HW2 feature implementation has not begun.
-No build, feature test, browser, audio, Lighthouse or React Profiler PASS is claimed by this planning document.
+Prepared 2026-11-11 (Asia/Saigon); updated after the approved H2-T1 implementation and verification.
+H2-T1 automated results are recorded below. No browser, audio, Lighthouse or React Profiler PASS is claimed.
 Historical Exercise/HW1 results do not verify HW2. Every implementation task must pass through the checkpoint in TASK_DECOMPOSITION.md.
 
 Use PENDING, BLOCKED, NOT APPLICABLE, PASS or FAIL precisely. PASS requires an actual observation within the stated scope. Record command, exit code/output, environment, date, task ID and evidence location. Mocks cannot verify audible output, screen-reader behavior or real React rendering isolation.
@@ -22,7 +22,7 @@ Use PENDING, BLOCKED, NOT APPLICABLE, PASS or FAIL precisely. PASS requires an a
 
 | ID | Area / Tasks | Automated verification | Manual browser verification | Expected | Result / evidence |
 | --- | --- | --- | --- | --- | --- |
-| V01 | Notes/contracts T1 | MIDI range, uniqueness, 88/52/36 split, color cycle, endpoint names, A4/formula/tolerance tests | Contract review; no UI yet | Correct algorithmic immutable notes and explicit timeline | PENDING |
+| V01 | Notes/contracts T1 | MIDI range, uniqueness, 88/52/36 split, color cycle, endpoint names, A4/formula/tolerance tests | No UI yet; browser NOT APPLICABLE | Correct algorithmic immutable notes and explicit timeline | PASS automated: 13 focused tests; see H2-T1 evidence |
 | V02 | FIFO voices T2 | Fake AudioContext eight/nine voices, oldest-first steal, repeated MIDI ownership and reinsert order | Hear chords/steal once UI exists | Max eight active voices under approved tail policy | PENDING |
 | V03 | Envelope/disposal T2 | Positive ramp floor, ADSR scheduling, 40ms release, stop/disconnect, stale onended and dispose race | Listen for pops/clipping; inspect real context behavior | Controlled musical release and no leaked audio resources | PENDING |
 | V04 | Audio startup T2/T6 | Suspended resume success/rejection, disposal during resume, lazy creation | First gesture unlock, suspended context and failure UI | No render-time context side effects or late audio | PENDING |
@@ -44,7 +44,7 @@ After every implementation task append: task ID, requirement IDs, date/environme
 
 | Task | Automated evidence | Manual evidence | Audit checkpoint | Review / real commit |
 | --- | --- | --- | --- | --- |
-| H2-T1 | NOT RUN | No UI yet; future T3/T6 checks | NOT STARTED | Awaiting approval / no commit |
+| H2-T1 | PASS: focused 13/13, full 19/19, lint/build/diff checks exit 0 | NOT APPLICABLE: no UI/audio; future T3/T6/T7 checks | Reviewed, zero observed failures; see AI_FAILURE_AUDIT.md | Awaiting Senior Review / cb5512afa9e7c722bd7b270a6d7dd084c8794841 |
 | H2-T2 | NOT RUN | PENDING integration | NOT STARTED | PENDING / no commit |
 | H2-T3 | NOT RUN | NOT RUN | NOT STARTED | PENDING / no commit |
 | H2-T4 | NOT RUN | NOT RUN | NOT STARTED | PENDING / no commit |
@@ -55,3 +55,42 @@ After every implementation task append: task ID, requirement IDs, date/environme
 ## Known coverage limitation inherited from base
 
 tests/developer.test.js imports src/exercises/DeveloperCard.jsx, while src/App.jsx imports src/components/DeveloperCard.jsx. Do not use those tests as proof for the current DeveloperCard or HW2. Tests added for HW2 must target the actual HW2 modules. A passing existing telemetry suite proves only its service checks, not piano behavior.
+
+## H2-T1 actual evidence - 2026-11-11 (Asia/Saigon)
+
+### Environment and provenance
+
+- Branch: hw2. Node v26.12.1, npm 11.20.0, Vite 7.3.7; Windows PowerShell in repository root.
+- Policy reviewed, staged by explicit paths and committed as `2083657f60b84a54608a2d5d89430a595d1584e3` (`chore(hw2): authorize verified task auto-commits`).
+- Implementation: `cb5512afa9e7c722bd7b270a6d7dd084c8794841` (`feat(hw2): define piano notes and sequence timing contracts`). Staged file list and full staged diff inspected before commit; only the two new modules and two focused test files were included.
+- PDF slides 27-28 re-read. Approved task instruction supplies the performance.now(), delta, held-note Stop and deterministic tie-order rules.
+
+### Commands actually executed
+
+| Command | Actual result | Scope |
+| --- | --- | --- |
+| `node --test tests/hw2-notes.test.js tests/hw2-contracts.test.js` | Exit 0; 13 passed, 0 failed, 0 skipped | Five note-domain tests and eight event/timeline-contract tests |
+| `npm.cmd test` | Exit 0; 19 passed, 0 failed, 0 skipped | npm test script: node --test; six existing tests plus 13 new tests |
+| `npm.cmd run lint` | Exit 0; no diagnostics | npm run lint script: eslint src vite.config.js; includes the new source modules, not test files |
+| `npm.cmd run build` | Exit 0; Vite 7.3.7 built 39 modules in 1.16s | Current app build; H2-T1 modules are not yet imported by App, so focused Node tests verify those modules directly |
+| `git diff --check` | Exit 0 | Tracked working diff; initially new files were untracked, so the staged check below also verified them |
+| `git diff --cached --check` | Exit 0 before implementation commit | All four staged H2-T1 files, following explicit-path staging and full diff review |
+
+The test run emitted a Vite dependency re-optimization notice; it was informational and all tests passed. No mandatory check failed. Build outputs and Vite caches are ignored/generated files and were not staged.
+
+### What was verified
+
+- MIDI range 21-108 with all 88 integers present exactly once; 52 white/36 black keys and correct black pitch classes.
+- Names A0/A4/C8 and independent reference frequencies 27.5/440/4186.009044809578 Hz, plus formula and octave ratio checks.
+- Stable MIDI-derived IDs across fresh generations; frozen arrays/entities without mutating caller data.
+- Exactly four event fields, JSON round-trip, MIDI/frequency consistency and finite non-negative durations/deltas. Reject missing/extra fields, invalid MIDI, mismatched frequency, strings, NaN and infinities; accept zero duration/delta.
+- Pure onset ordering by noteOnMs then unique onsetOrder; shuffled input gives identical results; no input mutation. Invalid clocks, pre-start timestamps and duplicate/unsafe ordinals are rejected.
+- Contract fixture verifies initial silence, zero-delta chord onset and overlapping durations, including the held-note Stop rule as a documented timing fixture. It does not execute a recorder or prove future Stop behavior.
+
+### Explicit limits and next review
+
+- No browser, audible audio, Lighthouse, responsive layout, screen reader, React Profiler or runtime effect cleanup was tested in T1; no related feature exists yet.
+- performance.now() acquisition, event accumulation/finalization and replay are contracts for T4/T5, not implemented engines. No React or Web Audio dependency in the new modules.
+- Existing DeveloperCard coverage mismatch remains unchanged and outside this task.
+- HW1 and unrelated untracked files were not staged; no push, reset or destructive Git action occurred.
+- H2-T1 implementation complete, verification passed, awaiting Senior Review. Do not start H2-T2.
