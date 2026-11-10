@@ -2,7 +2,7 @@
 
 ## Current evidence
 
-Prepared 2026-11-11 (Asia/Saigon). No HW2 implementation has been generated in this planning phase.
+Prepared 2026-11-11 (Asia/Saigon); updated after the approved H2-T1 implementation and audit checkpoint.
 Verified, reproducible HW2 AI-generated failures recorded: **0**.
 Evidence gap against a three-failure target: **3**. This is a truthful gap, not an instruction to manufacture bugs.
 Historical HW1/Exercise findings and defects in assignment reference code are not automatically HW2 AI failures.
@@ -38,7 +38,7 @@ No fabricated example failure is prefilled.
 
 | Task | Review state | New verified failures | Evidence / notes |
 | --- | --- | --- | --- |
-| H2-T1 | NOT STARTED | Not assessed | Awaiting senior approval |
+| H2-T1 | REVIEWED - awaiting Senior Review | 0 | 13/13 focused tests, 19/19 full suite; lint/build/diff checks exit 0; implementation cb5512afa9e7c722bd7b270a6d7dd084c8794841 |
 | H2-T2 | NOT STARTED | Not assessed | No implementation |
 | H2-T3 | NOT STARTED | Not assessed | No implementation |
 | H2-T4 | NOT STARTED | Not assessed | No implementation |
@@ -49,3 +49,13 @@ No fabricated example failure is prefilled.
 ## Reference risks excluded from the failure count
 
 Slide 28's standalone PolyphonicSynth calls noteOff without defining it; slide 27's sample PianoKey only handles pointer down/up. These are source-audit findings, not observed failures generated while implementing this homework. They motivate tests but do not satisfy the AI failure quota.
+
+## H2-T1 checkpoint - 2026-11-11 (Asia/Saigon)
+
+- Task instruction: approved pure note generation and recording timeline contracts, focused tests, required verification and separate commits. No recorder, audio engine or React component requested or added.
+- Reviewed implementation `cb5512afa9e7c722bd7b270a6d7dd084c8794841`, its two focused test files and the actual tool results recorded in VERIFICATION.md.
+- All 13 focused tests passed on the first execution; full suite 19/19, lint/build and staged/working diff checks exited 0. No genuine reproducible AI-generated implementation/test failure was observed in this task. No failure entry or invented fix hash is added.
+- Vite's dependency re-optimization notice and Git's LF/CRLF conversion warnings are tool notices, not demonstrated product failures.
+- Browser/audio/Profiler checks remain not performed. Future recording engine behavior is not claimed from a data-contract fixture.
+- Current verified failure count remains 0; gap against the three-failure target remains 3. Do not manufacture failures to close it.
+- This audit checkpoint is an actual documentation change, committed separately under the explicitly approved HW2 policy. The earlier manual-commit wording above is historical and superseded by AGENTS.md/project-rules.md; all hashes reported for this task are read from Git after successful commits.
