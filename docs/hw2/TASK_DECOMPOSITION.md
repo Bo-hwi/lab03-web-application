@@ -1,0 +1,205 @@
+# HW2 - 88-Key Polyphonic Piano & Concurrent FIFO Sequencer
+
+## Planning status and scope
+
+Planning prepared on 2026-11-11 (Asia/Saigon). H2-T1 and H2-T2 have passed Senior Review. H2-T3 was explicitly approved, implemented and verified automatically; it now awaits Senior Review with browser/Profiler checks pending.
+Update 2026-11-11 (Asia/Saigon, afternoon): the student instructed "finish HW2, then redo HW1". H2-T4 through H2-T7 were implemented in that session under the default decisions recorded in "Implementation decisions adopted for H2-T4 to H2-T7" below.
+
+H2-T3 browser gate: agent-run real-browser evidence now covers native pointer, keyboard/focus-visible, lazy creation, forced resume, startup failure/recovery, unmount, 375/1440 px and console (VERIFICATION.md, section "Agent real-browser evidence"). Window blur while a note is held: PASS on 2026-11-12 (student Alt+Tab, step5 evidence). Multi-touch and browser-originated pointercancel remain BLOCKED (no touch hardware).
+Correction: the repository shows HW1 is NOT complete. `hw1/drum-kit` has no commits beyond `ex3` and no DrumMachine source exists; only uncommitted planning docs under docs/hw1. HW1 is scheduled after HW2.
+
+- Common base: `ex3` at `4195b26ed903ecffdfdfa5b20f4ed1ca70e0fe4d`.
+- Target branch: `hw2`, independent of HW1/HW3 changes.
+- Follow `AGENTS.md` and `project-rules.md`; never change policy to bypass it.
+- The student commits manually. Proposed messages below are not executed commands.
+- No component, audio engine, package installation or feature test is part of this planning change.
+- Source root proposed below: `src/homeworks/GrandPiano88/` (abbreviated P).
+- Test files are proposed paths, not existing or implemented tests.
+- Use JavaScript/JSX and JSDoc contracts; PDF TypeScript examples do not require a migration.
+
+### H2-T1 approval and completion update
+
+- Policy commit: `2083657f60b84a54608a2d5d89430a595d1584e3`. Approved HW2 auto-commit policy supersedes the older manual-commit procedure preserved below.
+- Implementation commit: `cb5512afa9e7c722bd7b270a6d7dd084c8794841`.
+- The student approved performance.now() timing, first delta from recording start, later deltas from previous note-on, overlap/chord preservation, deterministic equal-timestamp order, held-note finalization at Stop, and immutable serializable events.
+- Implemented only pure note data, event validation/snapshot creation, onset ordering and tests. No clock acquisition, recorder, replay, React component or Web Audio engine was added.
+- Final serialized events have exactly four fields. Internal onsetOrder metadata is separate; event/UI identity for a future recording log remains a T4 concern.
+- Duplicate input ownership, stolen-note duration and transport policies remain open for T2/T4/T5. They do not block the approved T1 data contracts.
+- Focused tests 13/13; full suite 19/19; lint/build and working/staged diff checks exit 0. See VERIFICATION.md for commands, scope and limits. Audit checkpoint found zero observed AI-generated failures.
+- Stop here for Senior Review. H2-T2 is not authorized by this completion.
+
+## Assignment requirements and traceability
+
+Source: workspace Lab 03 PDF, 35 slides; slide numbers are 1-based PDF pages.
+
+| ID | Mandatory requirement | Source | Tasks | Verification reference |
+| --- | --- | --- | --- | --- |
+| R01 | Algorithmically generate A0-C8 / MIDI 21-108 inclusive; 88 keys, 52 white and 36 black; no 88 hardcoded tags | 27; MIDI bounds clarified in user request | T1, T3 | V01, V06 |
+| R02 | Frequency `440 * 2 ** ((midi - 69) / 12)` | 27 | T1 | V01 |
+| R03 | Eight active Web Audio voices; ninth steals oldest using FIFO Map insertion order | 27-28 | T2 | V02 |
+| R04 | ADSR-style gain envelope; release toward 0.0001 over 0.04s before stop; clean node disposal | 28; full ADSR/disposal reinforced by user | T2, T6 | V03, V12 |
+| R05 | Immutable recorded events contain MIDI, frequency, durationMs and deltaMs | 28 | T1, T4 | V07 |
+| R06 | Asynchronous FIFO replay at 0.5x, 1x and 2x | 28 | T5 | V08 |
+| R07 | AbortController cancellation; Stop cancels scheduled work and silences voices; unmount cleanup | 28 | T2, T5, T6 | V09, V12 |
+| R08 | React.memo with stable props; unrelated piano keys do not render on a single-key update | 27 | T3, T7 | V10 |
+| R09 | Semantic JSX, CSS Modules/root custom properties, immutable state, honest effect dependencies and cleanup | 3, 8; repository rules | All | V11-V14 |
+| R10 | WCAG 2.2 AA, labelled useId controls, keyboard/focus support, zero page overflow at 375px; Lighthouse Accessibility 100 | 34; repository rules | T3, T6, T7 | V06, V11, V13 |
+| R11 | Contract-first WBS, verification before atomic student commits, genuine AI failure audit | 3, 8, 25, 34 | All | Per-task gate, V15 |
+
+## Ambiguities and proposed decisions for senior review
+
+These are proposals, not already approved implementation contracts.
+
+1. Timeline: define deltaMs as onset-to-previous-onset, first onset relative to recording start. Preserve onset ordering even when notes finish out of order. Replay schedules onsets without awaiting prior note-off, preserving chords. Scale both deltas and durations by speed. Use a monotonic recording clock.
+2. Event identity: include a stable event ID and onset ordinal in addition to the four required fields; use stable note entity IDs for UI keys, never display text or array position.
+3. Held notes: recording Stop finalizes open durations at the stop timestamp; repeated note-off is harmless. Decide whether voice-stealing finalizes audible duration or preserves physical key-hold duration before coding T4.
+4. Duplicate MIDI/input ownership: the reference ignores a second noteOn for an already active MIDI. Propose one sounding voice per MIDI with source ownership tokens so releasing one pointer/key cannot release a note still held by another. Specify repeat/retrigger and FIFO age semantics in T1/T2.
+5. Voice limit: propose eight active voices excluding bounded 40ms release tails. Reference prose does not say whether tails count toward the physical oscillator maximum; confirm this interpretation before T2.
+6. Envelope: exact attack/decay/sustain parameters and waveform are unspecified. Propose configurable constants, a positive ramp floor, bounded master gain/headroom, 40ms musical release, and a separately defined immediate Stop path. Do not claim the eight-voice limit alone prevents clipping.
+7. Immediate Stop: propose synchronous invalidation of the replay generation and master output mute, cancellation of waits, then deterministic oscillator stop/disconnect. Normal note release may use the musical ramp. No later continuation may sound or silence a newer session.
+8. Transport: propose explicit idle/recording/playing states; freeze speed per replay; Stop then Play to change it. Disable recording during replay and finalize recording before replay. Confirm policy for live input during replay; proposed initial behavior disables it to avoid competing ownership.
+9. Accessibility: physical computer-key mapping is not specified. Propose documented e.code shortcuts for a limited playable range plus keyboard navigation/Enter/Space for all 88 named buttons. Ignore editable targets/composition, handle keyup, repeat, blur and pointercancel/capture loss.
+10. Mobile: propose a contained horizontally scrollable piano viewport with keyboard focus scrolling into view. The page itself must not overflow at 375px. No virtualization is necessary for just 88 keys unless measurements show otherwise.
+11. Profiler: test a settled single-key press with no stealing; only that key may update among 88 keys. Parent/transport updates are allowed. Stealing legitimately changes the new and stolen key indicators. Distinguish development StrictMode invocations from committed Profiler updates.
+12. Reference gaps: slide 28 calls noteOff without defining it and omits dispose/resume/envelope completion. Slide 27 provides pointer handlers but no keyboard activation or cancellation. Implement the requirements, not an unmodified snippet.
+13. Audit scope: slides 25/34 ask for three genuine bugs across the Lab; the per-homework quota is not explicit. Track HW2 independently and disclose any evidence gap rather than borrowing HW1 findings.
+14. Recording limits, persistence/export, sustain pedal, MIDI hardware input and exact audio latency targets are unspecified. Propose bounded in-memory recording with an announced limit (value to approve), no extra features, and measured rather than invented timing tolerances.
+
+## Shared checkpoint after EVERY implementation task
+
+1. Review the task's contract, requirement IDs, diff and scope. Preserve all HW1 files.
+2. Run the relevant automated tests plus build and lint; record exact commands, exit status, environment and actual results in VERIFICATION.md. A passing build is not feature acceptance.
+3. Perform the task-specific browser checks below. When UI is not yet available, record BLOCKED/NOT APPLICABLE and the later integration task that owns the check. Do not claim PASS from mocks or inspection alone.
+4. Inspect StrictMode lifecycle, cancellation, semantics, keyboard/focus and 375px behavior whenever the task affects them. Capture Profiler evidence when relevant.
+5. Update AI_FAILURE_AUDIT.md with real observed AI-generated failures only. If none, record the checkpoint and zero new failures; no hypothetical entry or quota padding.
+6. Link task -> real evidence -> correction -> proposed student commit. Ask for senior review of the completed slice before advancing; never run git commit.
+
+## H2-T1 - Piano note generation and recording timeline contracts
+
+- Status: APPROVED BY SENIOR REVIEW in the H2-T2 task instruction.
+- Objective: Establish correct note data and explicit timing/state contracts before the engine/UI.
+- Scope: Generated immutable note entities; MIDI/name/color/frequency helpers; JSDoc note, recorded event, ownership and transport contracts; resolve proposals 1-4 and 8 before dependent work.
+- Dependencies: T1 implementation explicitly approved; core timeline rules confirmed in the student's task instruction. Remaining audio/ownership/transport decisions deferred to their implementation tasks.
+- Files: P/notes.js, P/contracts.js, tests/hw2-notes.test.js, tests/hw2-contracts.test.js; these HW2 documents.
+- Acceptance: exactly 88 unique stable note entities covering MIDI 21-108, endpoints A0/C8, 52/36 split; A4=440; no hardcoded 88-tag/data list. Contracts explain delta origin, overlaps, repeated MIDI, open notes and speed scaling.
+- Automated verification: Node tests for all MIDI values/counts/IDs/color cycle, endpoint naming, frequency formula and reference pitches with numeric tolerance; build/lint. No mirror-only assertions.
+- Manual browser verification: No new UI in this task; browser key/audio checks NOT APPLICABLE until T3/T6. Review contracts and generated data with the senior; do not label this browser PASS.
+- Actual commit: `cb5512afa9e7c722bd7b270a6d7dd084c8794841` - `feat(hw2): define piano notes and sequence timing contracts`.
+- Checkpoint: shared verification and genuine-failure audit gate above; stop for review.
+
+## H2-T2 - Polyphonic audio engine and FIFO voice management
+
+- Status: APPROVED BY SENIOR REVIEW in the H2-T3 task instruction. Browser/audio checks remain pending.
+- Objective: Own Web Audio resources and manage deterministic eight-voice polyphony.
+- Scope: Lazy user-gesture context unlock/resume; FIFO Map; note ownership; ADSR gain; release/steal; stopAll/dispose; headroom and idempotent cleanup. No React piano UI.
+- Dependencies: T1; approved active/tail limit, envelope and Stop contracts.
+- Files: P/audio/PolyphonicSynth.js, tests/hw2-synth.test.js, tests/helpers/mockAudio.js; these HW2 documents.
+- Acceptance: eight active voices maximum; ninth steals exact oldest; released/retriggered notes obey contract; releasing voice A cannot delete a replacement voice B for the same MIDI; nodes disconnected on end/dispose; no context created during render; no delayed resume can sound after disposal.
+- Automated verification: injected fake context/clock; eight/nine-note order; duplicate ownership; release tails and stale onended; stop/dispose twice; suspended resume success/failure and dispose race; envelope scheduling and bounded resource counts; build/lint.
+- Manual browser verification: Once integrated, hear eight-note chords, ninth-note steal, release and Stop; inspect suspended/resumed audio and resources. Until T3/T6, record these checks BLOCKED BY UI, not PASS. Do not add a throwaway product page just to claim testing.
+- Actual commit: `c52d471ef07efbe0bff6277af1d983c6013f10ce` - `feat(hw2): implement FIFO polyphonic audio engine`.
+- Checkpoint: shared gate; preserve real failures/evidence and stop for review.
+
+### H2-T2 engine contract and engineering assumptions
+
+- One exclusive, lazily created AudioContext per engine. User-gesture callers invoke noteOn(midi); concurrent calls share a pending resume. Frequency comes from the existing H2-T1 midiToFrequency function.
+- noteOn returns a Promise resolving to `{ok:true, voice}` or `{ok:false, error}`; errors are handled inside the engine, not left as rejected startup promises. Inspect the result and lastError. Tokens are frozen objects `{id,midi}`; noteOff requires the exact returned object, not just MIDI or a copied ID.
+- Active voices use insertion-ordered Map; max eight. Same MIDI retriggers with a fresh token at FIFO tail and releases the prior token. Ninth distinct note releases oldest. Logical snapshots remove stolen/released voices immediately so the future UI can reconcile pressed/sounding indicators. No React pressed state exists in T2.
+- Release voices have a separate bounded Map of eight tails. Thus up to 16 scheduled/sounding oscillator paths may overlap; there is no eight-physical-oscillator claim. Overflow truncates/disconnects the oldest tail to bound resources.
+- Assumed timbre/envelope: sine wave; 5ms linear attack from 0.0001 to 1; 80ms linear decay to sustain 0.65; 40ms exponential release to 0.0001. Releasing mid-attack/decay anchors its analytically evaluated current level before cancelling future automation.
+- Master gain is 0.05: unit-peak sine times at most 16 envelope-bounded paths gives a conservative peak bound of 0.8. This is an engineering bound/mock assertion, not a measured physical-audio clipping result. Tails truncated under overload and immediate Stop/dispose can produce audible discontinuities; listen during integration.
+- stopAll immediately silences/disconnects active voices and tails and invalidates pending noteOn generation; it leaves context reusable. dispose additionally prevents future starts and closes context. Repeated/concurrent calls are safe; await its result. If close rejects, output stays disconnected and a later dispose retries close; do not claim context closure until success.
+- End callbacks disconnect oscillator and gain and cannot remove a replacement voice. No timers, UI event listeners, recorder, sequencer or React components added.
+- Verification: 23 focused tests including all T2-01 through T2-15; full suite 42/42; lint/build and staged/working diff checks exit 0. Zero observed AI-generated failures; see VERIFICATION.md and AI_FAILURE_AUDIT.md.
+- H2-T3 NOT STARTED. Stop for Senior Review.
+
+## H2-T3 - Accessible, memoized 88-key keyboard
+
+- Status: IMPLEMENTED (524404ad); browser gate evidence complete 2026-11-12 (window blur while held passed via student Alt+Tab); multi-touch BLOCKED. See VERIFICATION.md.
+- Objective: Provide reliable, isolated key interaction for all 88 notes.
+- Scope: React.memo keys; stable callbacks/scalar props; immutable pressed state; semantic list/buttons; pointer capture/cancel and keyboard activation/navigation; visible held/sounding distinction if required by contracts.
+- Dependencies: T1, T2.
+- Files: P/PianoKey.jsx, P/PianoKeyboard.jsx, P/PianoKeyboard.module.css, P/pianoInput.js, P/usePianoInput.js; tests/hw2-input.test.js, tests/hw2-keyboard.test.js, tests/piano-keyboard-test.html and .jsx; HW2 documents. App and existing H2-T1/T2 code unchanged.
+- Acceptance: 88 generated named buttons with type=button; aria-pressed reflects documented state; all notes keyboard reachable; no duplicate trigger from native click plus custom handlers; no stuck note after release outside, cancel, blur or editable typing; stable note entity IDs; unrelated keys do not update.
+- Automated verification: input/ownership tests for down/up, repeat, pointercancel, editable targets, native activation deduplication and release-all; SSR semantic checks for the actual new component; build/lint. Browser automation dependencies require separate justification before installation.
+- Manual browser verification: keyboard-only navigation and Enter/Space, multi-pointer chord, drag-out release, focus loss, Vietnamese IME where available; initial Profiler check after mount; identify any remaining screen-reader/375px work for T6.
+- Actual commit: `524404ad9570a1fb5a96bb49cef3013e7e45f3c3` - `feat(hw2): implement accessible memoized piano keyboard`.
+- Checkpoint: shared gate; capture Profiler evidence or mark it PENDING; stop for review.
+
+### H2-T3 implementation contract and limits
+
+- PianoKeyboard maps the stable PIANO_NOTES entities, keyed by note.id. Memoized PianoKey receives only a stable note object, per-key boolean and stable controller callbacks. The parent may render; untouched key props stay referentially stable. Profiler measurement has NOT been performed and isolation is not claimed empirically proven.
+- createPianoInput owns one lazy synth and immutable cached snapshots. usePianoInput binds useSyncExternalStore and a window blur effect; cleanup removes the listener, releases notes and disposes the owned engine. StrictMode-like detach/attach can create a fresh engine. createSynth dependency injection is mount-time only; remount the keyboard to replace it.
+- Owner IDs are pointer:<pointerId> and keyboard:<midi>:<Enter|Space>. Multiple owners on the same MIDI share one engine token until the last owner releases. Distinct pitches remain independent. FIFO reconciliation retires stolen owners and their pressed indicators; old pending results release only their exact returned token.
+- Pointer up/cancel/leave/lost capture release ownership; captured-pointer move outside the button bounds also releases it. Button blur releases keyboard owners only, so focusing another touched key does not release existing touch owners. Window blur releases all and invalidates pending startups. Unmount also closes the engine.
+- Enter/Space prevent native activation, suppress repeat/composition and release on keyup. Pointer-generated clicks are ignored; detail-zero assistive activation uses an owned tap. ArrowLeft/ArrowRight/Home/End move focus among notes. No window-level letter shortcuts or editable-field interception added.
+- Buttons have musical accessible names, explicit type, logical aria-pressed, visible On text and focus styles. Error state is rendered with role=alert and active count with a polite status output. CSS Modules/root tokens provide initial keyboard styling and a contained scroll viewport, not a completed T6 responsive/WCAG certification.
+- Node tests cover controller behavior with the actual T2 engine and mock AudioContext; SSR verifies the actual keyboard markup; direct handler tests verify event wiring. They do not dispatch browser DOM events or mount React effects in a real browser.
+- Final focused tests 20/20; full suite 62/62; lint/build/diff checks exit 0. One genuine test-infrastructure failure (unneeded Vite WebSocket listener collision) was observed, fixed and logged separately.
+- Browser fixture exists under tests/piano-keyboard-test.html and .jsx, isolated from App. Vite fixture server started successfully, then was stopped after computer-use could not safely bind Chrome. No browser interaction, physical audio or Profiler PASS.
+- H2-T4/T5/T6/T7 NOT STARTED. Stop for Senior Review.
+
+## H2-T4 - Immutable note recording and event timeline
+
+- Status: IMPLEMENTED 2026-11-11; automated + agent browser evidence; pending student commit and Senior Review. Actual files: P/recording.js, P/useRecorder.js, tests/hw2-recording.test.js (P/RecordingControls.jsx was not needed; controls live in P/GrandPiano88.jsx).
+- Objective: Capture polyphonic playing as deterministic replayable events.
+- Scope: Recording start/stop and state transitions, monotonic timestamps, open-event completion, immutable event updates, bounded history and stable event IDs. Derive displays during render.
+- Dependencies: T1-T3; approved stolen-note and recording-limit semantics.
+- Files: create P/recording.js, P/useRecording.js, P/RecordingControls.jsx, tests/hw2-recording.test.js; modify the HW2 view only as needed; update documents.
+- Acceptance: each completed event contains MIDI/frequency/durationMs/deltaMs plus identity; durations nonnegative and finite; onset order preserved despite reversed release order; simultaneous chord onsets preserved; Stop finalizes held notes; source snapshots unchanged; bounds announced accessibly.
+- Automated verification: injected clock traces for chords, rests, repeated MIDI, out-of-order releases, empty/zero-duration recording, stop with held notes and bounds; immutable snapshot assertions; build/lint.
+- Manual browser verification: record a chord plus separated notes; check visible event order/count, accessible status and Stop while keys held; compare playback behavior later in T5.
+- Proposed commit: `feat(hw2): record immutable polyphonic note timelines`.
+- Checkpoint: shared gate; audit actual recording failures and stop for review.
+
+## H2-T5 - Asynchronous variable-speed replay and cancellation
+
+- Status: IMPLEMENTED 2026-11-11; automated + agent browser evidence; pending student commit and Senior Review. Actual files: P/sequencePlayer.js, P/useSequencer.js, tests/hw2-sequencer.test.js (controls in P/GrandPiano88.jsx).
+- Objective: Replay FIFO onset events without losing polyphonic overlap or cancellation safety.
+- Scope: Abortable waits/scheduler; speed 0.5/1/2; generation ownership; Play/Stop controls; FIFO dispatch; independent note-off scheduling; user-visible errors.
+- Dependencies: T2-T4; approved transport and immediate-stop policy.
+- Files: create P/sequencePlayer.js, P/useSequencer.js, P/SequencerControls.jsx, tests/hw2-sequencer.test.js; update HW2 view/documents.
+- Acceptance: scale both onset deltas and durations; preserve overlap; waits and note-off work canceled on Stop/unmount; synchronous session invalidation; no stale note-on after Stop and no old-session note-off affecting a new replay; settle promises/rejections safely; stopped voices silent.
+- Automated verification: deterministic clock at every speed; empty sequence; Stop before/during await and context resume; repeated Stop; Play-Stop-Play; abort listener/timer cleanup; old generation completion and rejected audio startup; build/lint.
+- Manual browser verification: hear same phrase at 0.5/1/2x; Stop during chord/rest/startup; rapid replay restart; background tab and wake behavior; no console/unhandled rejection or stuck sound. Record timing/audio evidence honestly.
+- Proposed commit: `feat(hw2): add abortable variable-speed FIFO replay`.
+- Checkpoint: shared gate; preserve real race/cancellation evidence and stop for review.
+
+## H2-T6 - Responsive integration, accessibility, and lifecycle cleanup
+
+- Status: IMPLEMENTED 2026-11-11; automated + agent browser evidence; Lighthouse and screen-reader checks still PENDING (student). Actual files: P/GrandPiano88.jsx, P/GrandPiano88.module.css, P/PianoKeyboard.jsx (PianoKeyboardView split, PianoKeyboard API unchanged), src/App.jsx, tests/hw2-grand-piano.test.js.
+- Objective: Integrate the complete HW2 experience and close cross-component lifecycle/accessibility gaps.
+- Scope: Final HW2 page, App integration, scoped piano viewport, labelled controls, root design tokens, reduced motion, error/status UI and coordinated unmount cleanup.
+- Dependencies: T3-T5.
+- Files: create/finalize P/GrandPiano88.jsx and P/*.module.css; modify src/App.jsx and src/styles.css only as necessary; add integration checks; update documents. Do not modify HW1.
+- Acceptance: no horizontal page scroll at 375px or 1440px; all 88 keys reachable within contained viewport; visible/unobscured focus; useId labels on every input/select; AA contrast; user gesture audio startup; StrictMode setup-cleanup-setup safe; unmount cancels all playback/listeners/nodes/contexts.
+- Automated verification: full relevant tests, integration/resource-count checks, static prohibited-pattern review, build/lint; verify imports need no HW1 branch code.
+- Manual browser verification: 375/1440px, zoom and long text, contained scrolling, keyboard/screen reader, reduced motion, unavailable audio recovery, repeated mount/unmount; Lighthouse A11y target 100 with real report.
+- Proposed commit: `style(hw2): integrate responsive piano and lifecycle controls`.
+- Checkpoint: shared gate; distinguish automated accessibility scores from manual WCAG evidence; stop for review.
+
+## H2-T7 - Final regression tests, React Profiler verification, and AI failure audit
+
+- Status: COMPLETE 2026-11-12 except screen-reader pass and multi-touch (not done/BLOCKED). Lighthouse Accessibility 100 and student listening check recorded in VERIFICATION.md. Code commits d341aaa..6b961bf; evidence f949fbd; audit 5915c01, 5c46b7c.
+- Objective: Produce reviewable end-to-end evidence and disclose remaining gaps.
+- Scope: Regression suite, actual component test targets, final Profiler sessions, audio/memory checks, manual matrix, audit provenance and student commit traceability. Do not invent failures to fill a quota.
+- Dependencies: T1-T6 and access to a real browser/DevTools/audio output.
+- Files: tests/hw2-*.test.js as necessary, docs/hw2/TASK_DECOMPOSITION.md, VERIFICATION.md, AI_FAILURE_AUDIT.md; project-wide documentation only if needed, preserving existing sections.
+- Acceptance: all requirements mapped to real evidence; final build/lint/tests actually run; isolated-key committed render evidence; FIFO/overlap/Stop/unmount regressions covered; Lighthouse/manual findings recorded; audit counts genuine failures and explicitly states if fewer than three; real hashes only after student commits.
+- Automated verification: full project test suite plus targeted HW2 regressions, build, lint, git diff --check, source-policy and branch-independence review. Explain that old DeveloperCard tests target a different component from App until separately corrected.
+- Manual browser verification: final instrument workflow; eight/nine notes, recording/replay all speeds, cancellation, keyboard/IME, 375px, screen reader, Lighthouse and Profiler. Record browser/version/device/settings and observation limits.
+- Proposed commit: `test(hw2): verify piano regressions and document AI failures`.
+- Checkpoint: shared gate and senior final review; no agent commit.
+
+## Implementation decisions adopted for H2-T4 to H2-T7 (2026-11-11)
+
+Adopted from the proposals in "Ambiguities and proposed decisions" because the student asked to finish HW2; each can be revised in Senior Review.
+
+1. What is recorded: the notes that actually sounded, observed from the input store's pressedMidis. A note-on is a MIDI entering the set; a note-off is release, blur or FIFO steal. A stolen note's duration therefore ends when it was stolen (audible duration).
+2. Notes already held when Record is pressed are ignored; held notes are finalized at Stop recording; no incomplete event is published.
+3. Each published entry is `{ id: "take-<n>-note-<onsetOrder>", event }`; `event` keeps exactly the four contract fields. The ID gives stable list keys without changing the serialized event.
+4. Recording limit: 500 onsets per take. Recording stops itself and announces the limit.
+5. Replay goes through the same input store with owners `replay:<run>:<index>`, so keys light up, FIFO stealing applies and live playing can coexist through ownership. Recording is disabled during replay and Play is disabled during recording.
+6. Speed is chosen before Play (0.5x, 1x, 2x) and frozen for that run. Onsets accumulate deltaMs / speed; each release is onset + durationMs / speed.
+7. Every timer is computed from the replay start (no accumulated drift). Stop, a new Play and unmount abort the run synchronously: timers cleared, this run's held notes released; an old run cannot release a newer run's notes.
+8. The audio engine is still created lazily on the first user-initiated note; replay relies on the page already having user activation.

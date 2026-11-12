@@ -1,0 +1,20 @@
+{
+  "provenance": "Agent-run: Claude desktop built-in browser pane (Electron Chromium 156, viewport 458x687, DPR 1.25), integrated App at http://127.0.0.1:5174/ (Vite dev server on the student's machine), 2026-11-11 ~07:55-08:00Z. Native agent clicks/drags (computer tool, isTrusted pointer events). Speed changes used the tool's form_input on the labelled select. Timing measured by an agent MutationObserver on aria-pressed (performance.now ms); audio output not measured here.",
+  "record": {
+    "actions": "click Record; drag-hold C4, D4, E4 one at a time; click Stop recording",
+    "status": "Recorded 3 notes.",
+    "entries": ["C4 — after 481 ms, held 497 ms", "D4 — after 1052 ms, held 1444 ms", "E4 — after 2482 ms, held 1963 ms"],
+    "ariaPressedDurationsMs": { "60": 492, "62": 1440, "64": 1959 }
+  },
+  "replay1x": { "statusDuring": "Playing 3 notes at 1×.", "recordDisabledDuring": true, "stopEnabledDuring": true,
+    "onsetsRelFirstMs": [[60, 0], [62, 1052], [64, 3528]], "expectedOnsetsMs": [[60, 0], [62, 1052], [64, 3534]],
+    "durationsMs": [[60, 502], [62, 1449], [64, 1977]], "statusAfter": "Playback finished at 1×.", "pressedAfter": 0 },
+  "replay2x": { "onsetsRelFirstMs": [[60, 0], [62, 531], [64, 1780]], "expectedOnsetsMs": [[60, 0], [62, 526], [64, 1767]],
+    "durationsMs": [[60, 249], [62, 720], [64, 969]], "expectedDurationsMs": [[60, 248.5], [62, 722], [64, 981.5]],
+    "statusAfter": "Playback finished at 2×.", "pressedAfter": 0 },
+  "replay0_5xStop": { "pressedBeforeStop": ["62"],
+    "log": [[60, true, 0], [60, false, 993], [62, true, 2112], [62, false, 2900]],
+    "note": "Stop clicked ~3.8 s after Play while D4 held (its scheduled release was ~5000 ms). D4 released at Stop; E4 (scheduled ~7068 ms) never pressed during a further 6 s wait.",
+    "statusAfter": "Playback stopped.", "pressedAfter": 0, "playEnabledAfter": true, "stopDisabledAfter": true },
+  "limits": "Physical listening not asserted. Onset/duration error observed <=13 ms vs schedule (includes noteOn promise + React commit latency)."
+}

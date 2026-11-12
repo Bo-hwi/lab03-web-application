@@ -1,0 +1,33 @@
+{
+  "provenance": "Agent-run: Claude desktop built-in browser pane (Electron Chromium 156), viewport emulated 375x812 via resize_window (width < 768 also emulates Android UA + 5 touch points), fresh page load, 'Run client checks' clicked with the agent's computer tool. Harness version: after pointercancel fix, BEFORE A02 polling fix.",
+  "url": "http://127.0.0.1:5174/tests/piano-keyboard-test.html",
+  "userAgent": "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Mobile Safari/537.36",
+  "viewport": [375, 812],
+  "documentWidth": 375,
+  "date": "2026-11-11T07:41:55.690Z",
+  "method": "synthetic DOM events through actual client React handlers; pointer/native focus checks separate",
+  "results": [
+    { "id": "B01-B02", "status": "PASS", "actual": { "keys": 88, "white": 52, "black": 36 } },
+    { "id": "R04-names", "status": "PASS", "actual": { "first": "Play A0", "last": "Play C8" } },
+    { "id": "B04-Enter", "status": "PASS", "actual": { "pressed": [60], "prevented": true } },
+    { "id": "P01-P02", "status": "PASS", "actual": { "method": "instrumented memo inner subtree React.Profiler", "commits": [ { "midi": 60, "phase": "update", "actualDuration": 0 } ], "renderInvocations": [60, 60] } },
+    { "id": "A01", "status": "PASS", "actual": { "contextsBeforeGesture": 0, "contextsNow": 1, "state": "running", "initialState": "running", "userGestureActive": true, "resumeCalls": 0 } },
+    { "id": "A02", "status": "FAIL", "actual": { "rms": 0, "method": "real AudioContext AnalyserNode, not human listening" } },
+    { "id": "B04-repeat", "status": "PASS", "actual": { "count": 1 } },
+    { "id": "A03", "status": "PASS", "actual": { "active": 0, "tails": 0, "rms": 0, "ended": 1 } },
+    { "id": "B04-Space", "status": "PASS", "actual": { "pressed": [64] } },
+    { "id": "B05", "status": "PASS", "actual": { "right": "61", "home": "21", "end": "108" } },
+    { "id": "B09", "status": "PASS", "actual": { "pressed": [], "voices": 0 } },
+    { "id": "B10-A05", "status": "PASS", "actual": { "pressed": [60, 61, 62, 63, 64, 65, 66, 67], "active": [60, 61, 62, 63, 64, 65, 66, 67], "rms": 0.08115031411479354 } },
+    { "id": "A06-P03", "status": "PASS", "actual": { "pressed": [61, 62, 63, 64, 65, 66, 67, 68], "committedKeys": [60, 68], "renderInvocations": [60, 60, 68, 68] } },
+    { "id": "R01-R02", "status": "PASS", "actual": { "viewport": 375, "documentWidth": 375 } },
+    { "id": "B14", "status": "PASS", "actual": { "capturedErrors": [] } }
+  ],
+  "diagnosis": {
+    "method": "Agent javascript_tool probe in the same tab: dynamic import of the real PolyphonicSynth with a fresh AudioContext + AnalyserNode, noteOn(69), RMS sampled every ~30 ms.",
+    "result": { "createdState": "running", "createdCurrentTime": 0, "baseLatency": 0.01, "outputLatency": 0.04,
+      "firstSamples": [ { "ms": 32, "ct": 0, "rms": 0 }, { "ms": 64, "ct": 0.0107, "rms": 0.0144 }, { "ms": 97, "ct": 0.0507, "rms": 0.03169 }, { "ms": 128, "ct": 0.08, "rms": 0.02703 } ],
+      "steady": "rms ~0.0229-0.0231 from 175 ms to 768 ms" },
+    "conclusion": "A cold AudioContext reports state 'running' with currentTime 0 before its first render quantum; output appeared ~30-64 ms later. The A02 assertion took one sample at a fixed 80 ms after keydown, which is racy on a cold context. Previous PASS runs had a warm context (contextsBeforeGesture=1). Classified as a harness timing defect, not evidence of a silent note; startup latency itself is a platform cost of lazy creation."
+  }
+}

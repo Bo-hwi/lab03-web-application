@@ -1,0 +1,14 @@
+{
+  "url": "http://127.0.0.1:5174/tests/piano-keyboard-test.html",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/5.1231.2 Chrome/156.0.8078.75 Safari/537.36 MSIX",
+  "viewport": [458, 687],
+  "documentWidth": 442,
+  "date": "2026-11-11T07:35:35.973Z",
+  "pressed": [],
+  "nativeEvents": [],
+  "lastKeyFocus": null,
+  "audioAlert": null,
+  "keyboardMounted": true,
+  "errors": [],
+  "contexts": []
+}

@@ -1,0 +1,20 @@
+{
+  "provenance": "Agent-run in Claude desktop built-in browser pane (Electron Chromium 156), viewport emulated 375x812, after agent-10 run; measured with javascript_tool and a screenshot (not saved as a file).",
+  "url": "http://127.0.0.1:5174/tests/piano-keyboard-test.html",
+  "layout375": {
+    "documentScrollWidth": 375,
+    "bodyScrollWidth": 375,
+    "elementsOverflowingViewportOutsideKeyboard": [],
+    "keyboardViewport": { "left": 32, "right": 343.20001220703125, "clientWidth": 310, "scrollWidth": 3352, "overflowX": "auto" },
+    "whiteKeyWidth": 64,
+    "blackKeyWidth": 44,
+    "minHarnessButtonHeight": 44,
+    "visual": "Controls wrap to one or two per row; piano section fits the 375px width; keys scroll horizontally only inside the bordered keyboard viewport; note labels (e.g. F#7, G#7, A#7, F7..C8) legible."
+  },
+  "consoleAllLevels": [
+    "[debug] [vite] connecting... / connected. (repeated per reload)",
+    "[debug] [vite] hot updated: /tests/piano-browser-gate.jsx (x3, from agent harness edits)",
+    "[info] Download the React DevTools ... (per reload)"
+  ],
+  "consoleErrorsOrWarnings": 0
+}

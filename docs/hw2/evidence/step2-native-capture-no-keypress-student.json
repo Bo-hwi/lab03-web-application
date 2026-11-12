@@ -1,0 +1,33 @@
+{
+  "url": "http://127.0.0.1:5174/tests/piano-keyboard-test.html",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "viewport": [1421, 897],
+  "documentWidth": 1404,
+  "date": "2026-11-11T07:18:14.399Z",
+  "pressed": [],
+  "nativeEvents": [
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "midi": 28, "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "midi": 29, "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "midi": 28, "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "midi": 28, "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "midi": 27, "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "midi": 27, "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "midi": 27, "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "midi": 27, "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "midi": 40, "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "midi": 41, "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "midi": 42, "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "midi": 42, "pressedAfter": [], "activeAfter": [] },
+    { "type": "window-blur", "trusted": true, "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "midi": 42, "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "midi": 48, "pressedAfter": [], "activeAfter": [] },
+    { "type": "window-blur", "trusted": true, "pressedAfter": [], "activeAfter": [] }
+  ],
+  "lastKeyFocus": null,
+  "audioAlert": null,
+  "keyboardMounted": true,
+  "errors": [],
+  "contexts": [
+    { "state": "closed", "initialState": "running", "userGestureActive": true, "resumeCalls": 0, "ended": 1, "oscillators": 1 }
+  ]
+}

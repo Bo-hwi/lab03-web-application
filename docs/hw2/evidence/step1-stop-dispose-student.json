@@ -1,0 +1,22 @@
+{
+  "url": "http://127.0.0.1:5174/tests/piano-keyboard-test.html",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "viewport": [1421, 897],
+  "documentWidth": 1404,
+  "date": "2026-11-11T07:17:11.036Z",
+  "method": "real-browser standalone engine/analyser",
+  "results": [
+    {
+      "id": "A04-A07",
+      "status": "PASS",
+      "actual": {
+        "signalRms": 0.02345402246982513,
+        "stopRms": 0,
+        "closeResult": { "ok": true },
+        "contextState": "closed",
+        "oscillators": 1,
+        "ended": 1
+      }
+    }
+  ]
+}
