@@ -1,0 +1,55 @@
+.arena {
+  width: min(100%, 74rem);
+  margin: 3rem auto;
+  padding: 0 1rem 3rem;
+  color: var(--arena-ink);
+}
+
+.hero {
+  padding: clamp(1.5rem, 5vw, 3rem);
+  border-radius: 1.25rem;
+  color: #fff;
+  background: linear-gradient(130deg, #111e2b 0%, #203947 62%, #4c4028 100%);
+}
+
+.hero h2 { margin: .3rem 0 .7rem; font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.1; }
+.hero p { max-width: 52rem; }
+.eyebrow { color: #ffd36f; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.demoNotice { color: #f9e7bd; font-size: .92rem; }
+.panel { margin-top: 1.25rem; padding: clamp(1rem, 3vw, 1.75rem); background: #fff; border: 1px solid #d9e1e7; border-radius: 1.25rem; }
+.sectionHeader { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: .5rem 1rem; }
+.sectionHeader h3 { margin: 0; font-size: 1.45rem; }
+.sectionHeader p { margin: 0; color: #53616b; }
+.dropGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1rem; margin: 1.3rem 0 0; padding: 0; list-style: none; }
+.dropGrid > li { min-width: 0; }
+.dropCard { height: 100%; display: flex; flex-direction: column; gap: 1rem; padding: 1.25rem; border: 1px solid #d5dfe5; border-radius: 1rem; background: #f8fafb; }
+.dropHeader h4 { margin: .65rem 0 0; font-size: 1.25rem; }
+.phase { display: inline-block; padding: .25rem .7rem; border-radius: 1rem; background: #e6edf0; color: #203b4b; font-weight: 700; font-size: .8rem; }
+.phase[data-phase="AIRDROP_LIVE"] { color: #135536; background: #dff4e8; }
+.phase[data-phase="LOOTED_OUT"], .phase[data-phase="EXPIRED"] { color: #653034; background: #f9e6e6; }
+.dropFacts, .standings dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: .15rem 1rem; }
+.dropFacts { margin: 0; }
+.dropFacts dt, .standings dt { color: #5a6770; font-size: .82rem; }
+.dropFacts dd, .standings dd { margin: 0; font-weight: 750; }
+.countdown { display: flex; align-items: baseline; gap: .7rem; font-variant-numeric: tabular-nums; }
+.countdown strong { font-size: 1.45rem; }
+.dropCard button { min-height: 2.75rem; margin-top: auto; border: 0; border-radius: .65rem; padding: .65rem 1rem; background: var(--arena-accent); color: #18232c; font-weight: 800; }
+.dropCard button:disabled { cursor: not-allowed; color: #4d5961; background: #d8e0e4; }
+.dropCard p[role="alert"] { color: #8b272e; font-weight: 700; }
+.controls { display: flex; flex-wrap: wrap; gap: .5rem 1rem; margin-top: .75rem; }
+.controls p, .feedControl { display: grid; gap: .3rem; margin: .4rem 0; min-width: min(100%, 14rem); }
+.controls label, .feedControl label { font-weight: 700; }
+.controls input, .controls select, .feedControl select { width: 100%; min-height: 2.75rem; padding: .45rem .6rem; border: 1px solid #8fa3b0; border-radius: .5rem; background: #fff; color: inherit; }
+.resultCount { display: block; margin: .7rem 0; color: #4d5c65; }
+.standings { display: grid; gap: .55rem; padding-left: 1.7rem; }
+.standings li { padding: .8rem 1rem; border: 1px solid #dce5e9; border-radius: .7rem; }
+.standings dl { margin: .4rem 0 0; }
+.feed { display: grid; gap: .5rem; padding: 0; list-style: none; }
+.feed li { padding: .7rem .85rem; background: #f4f7f8; border-radius: .55rem; }
+.feed li span:first-child { color: #526773; margin-right: .6rem; }
+
+@media (max-width: 375px) {
+  .arena { padding-inline: .65rem; }
+  .hero, .panel { border-radius: .8rem; }
+  .dropCard { padding: 1rem; }
+}
