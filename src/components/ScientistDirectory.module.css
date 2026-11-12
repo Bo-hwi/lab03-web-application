@@ -1,0 +1,11 @@
+.directory { width: min(100% - 2rem, 42rem); margin: 2rem auto; padding: clamp(1rem, 3vw, 1.5rem); border: 1px solid #c5d1e0; border-radius: 1rem; background: #fff; }
+.directory h2 { margin: 0 0 1rem; line-height: 1.2; }
+.controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin-bottom: 1rem; }
+.field { display: grid; gap: .3rem; min-width: 0; margin: 0; }
+.field label { font-weight: 700; }
+.field input, .field select { width: 100%; min-width: 0; min-height: 2.75rem; padding: .4rem .6rem; border: 1px solid #8da1bd; border-radius: .45rem; background: #fff; color: #14243b; }
+.reset { align-self: end; min-height: 2.75rem; padding: .4rem .75rem; border: 1px solid #1c558e; border-radius: .45rem; background: #eaf4ff; color: #123f6d; font-weight: 700; }
+.people { display: grid; gap: .5rem; padding-left: 1.5rem; }
+.people li { padding-left: .2rem; }
+.people button { min-height: 2.75rem; margin-left: .5rem; padding: .3rem .65rem; border: 1px solid #a34444; border-radius: .4rem; color: #792323; background: #fff4f4; }
+@media (max-width: 540px) { .directory { width: calc(100% - 1rem); } .controls { grid-template-columns: 1fr; } .reset { justify-self: start; } }

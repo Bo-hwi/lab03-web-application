@@ -16,7 +16,11 @@ export default [
     rules: reactHooks.configs.recommended.rules,
   },
   {
-    files: ["vite.config.js"],
+    files: ["vite.config.js", "playwright.config.js", "scripts/**/*.mjs"],
     languageOptions: { globals: globals.node },
+  },
+  {
+    files: ["e2e/**/*.js"],
+    languageOptions: { globals: { ...globals.node, ...globals.browser } },
   },
 ];

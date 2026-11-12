@@ -1,0 +1,13 @@
+{
+  "observedAt": "2026-11-12T16:28:38.767Z",
+  "browser": "Chromium 158.0.8127.18",
+  "page": "http://127.0.0.1:5176/",
+  "measurements": {
+    "innerWidth": 375,
+    "documentScrollWidth": 375,
+    "bodyScrollWidth": 375,
+    "innerHeight": 812
+  },
+  "screenshot": "hw1-375.png",
+  "method": "Playwright Chromium browser measurement and full-page screenshot"
+}

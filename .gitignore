@@ -1,7 +1,10 @@
 node_modules/
+.npm-cache/
 dist/
 .vite/
 coverage/
+playwright-report/
+test-results/
 *.local
 .env
 .env.*
