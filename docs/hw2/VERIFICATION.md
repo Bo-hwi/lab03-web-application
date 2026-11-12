@@ -344,4 +344,12 @@ Copy of the working tree in the agent's Linux container (Node v22.23.4, `npm ci`
 
 ### Still pending (student)
 
-- Lighthouse Accessibility report, screen-reader pass, physical listening, multi-touch. (Window blur while held: PASS 2026-11-12, step5.)
+- Screen-reader pass and multi-touch remain NOT DONE. (Window blur while held: PASS 2026-11-12, step5.)
+
+### Student checks - 2026-11-12
+
+| Check | Method | Result | Evidence |
+| --- | --- | --- | --- |
+| Lighthouse Accessibility | Student, Chrome incognito, DevTools Lighthouse on http://127.0.0.1:5174/ (whole App page: Exercises 1-3 plus HW2) | 100. The 10 "additional items to manually check" are not scored. The Desktop/Mobile mode is not visible in the screenshot, and only one run was supplied. | [lighthouse-a11y-student.png](evidence/lighthouse-a11y-student.png) |
+| Physical listening | Student recorded notes and replayed at 0.5x, 1x and 2x | Student report: sound normal, no stuck notes, no timing drift. Subjective, one listener, one device. | Chat report, 2026-11-12 |
+| Screen reader | — | NOT DONE (optional per student decision pending) | — |

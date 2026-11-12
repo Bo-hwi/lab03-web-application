@@ -180,7 +180,7 @@ These are proposals, not already approved implementation contracts.
 
 ## H2-T7 - Final regression tests, React Profiler verification, and AI failure audit
 
-- Status: IN PROGRESS. Regression suite, evidence and audit updated 2026-11-11; Lighthouse report, screen-reader pass and physical listening remain student actions.
+- Status: COMPLETE 2026-11-12 except screen-reader pass and multi-touch (not done/BLOCKED). Lighthouse Accessibility 100 and student listening check recorded in VERIFICATION.md. Code commits d341aaa..6b961bf; evidence f949fbd; audit 5915c01, 5c46b7c.
 - Objective: Produce reviewable end-to-end evidence and disclose remaining gaps.
 - Scope: Regression suite, actual component test targets, final Profiler sessions, audio/memory checks, manual matrix, audit provenance and student commit traceability. Do not invent failures to fill a quota.
 - Dependencies: T1-T6 and access to a real browser/DevTools/audio output.
