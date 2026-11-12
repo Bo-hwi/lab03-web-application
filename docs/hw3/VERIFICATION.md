@@ -38,7 +38,7 @@ The first focused run had 6 pass and 1 SSR failure: a generated generic `<div>` 
 
 ## Integrated slide-alignment checkpoint — 2026-11-12
 
-The current uncommitted `hw3` working tree also renders HW1 and HW2. Squad data now uses Roy Esports per slide 29 prose while the earlier in-class exercise retains Genius Esports per slide 22. `npm.cmd test` passed 98/98, `npm.cmd run test:e2e` passed 8/8, lint and build exited 0. Fresh Chromium 158 evidence at 375 × 812 CSS pixels measured `innerWidth=375`, `documentScrollWidth=375`, `bodyScrollWidth=375`: [measurement](evidence/hw3-375.json), [screenshot](evidence/hw3-375.png). The claim/409 and real 20-second crate tests passed again. Lighthouse, background-tab wake, screen reader and the slide 30 request for three genuine HW3 AI bugs remain open; only one real generated HW3 bug has been recorded.
+The current `hw3` branch also renders HW1 and HW2. Squad data now uses Roy Esports per slide 29 prose while the earlier in-class exercise retains Genius Esports per slide 22. `npm.cmd test` passed 98/98, `npm.cmd run test:e2e` passed 8/8, lint and build exited 0. Fresh Chromium 158 evidence at 375 × 812 CSS pixels measured `innerWidth=375`, `documentScrollWidth=375`, `bodyScrollWidth=375`: [measurement](evidence/hw3-375.json), [screenshot](evidence/hw3-375.png). The claim/409 and real 20-second crate tests passed again. Lighthouse, background-tab wake, screen reader and the slide 30 request for three genuine HW3 AI bugs remain open; only one real generated HW3 bug has been recorded.
 
 ## Student manual report and remaining background check — 2026-11-12
 

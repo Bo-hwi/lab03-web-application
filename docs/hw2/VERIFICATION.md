@@ -356,7 +356,7 @@ Copy of the working tree in the agent's Linux container (Node v22.23.4, `npm ci`
 
 ## Current integrated `hw3` checkout — 2026-11-12
 
-The complete GrandPiano88 source, its tests and this historical verification record were copied from the `hw2` branch into the current uncommitted `hw3` working tree without changing either branch history. Current `npm.cmd test` passed 98/98, `npm.cmd run test:e2e` passed 8/8, lint and build exited 0. New Chromium test on the integrated App observed 88 piano buttons (A0 MIDI 21 to C8 MIDI 108), recorded an A4 with Enter, stopped recording, and completed replay at 2× with no uncaught page error. Whole App 375px evidence is in [HW1 measurement](../hw1/evidence/hw1-375.json). Older detailed browser findings above belong to the prior `hw2` checkout; screen reader and real multi-touch remain unverified.
+The complete GrandPiano88 source, its tests and this historical verification record were copied from the `hw2` branch into the current `hw3` branch; the original `hw2` branch history remains available. The integration commit on `hw3` is `51be750`. Current `npm.cmd test` passed 98/98, `npm.cmd run test:e2e` passed 8/8, lint and build exited 0. New Chromium test on the integrated App observed 88 piano buttons (A0 MIDI 21 to C8 MIDI 108), recorded an A4 with Enter, stopped recording, and completed replay at 2× with no uncaught page error. Whole App 375px evidence is in [HW1 measurement](../hw1/evidence/hw1-375.json). Older detailed browser findings above belong to the prior `hw2` checkout; screen reader and real multi-touch remain unverified.
 
 ## Student manual report — 2026-11-12
 

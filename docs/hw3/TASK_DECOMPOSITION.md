@@ -23,4 +23,4 @@ Source: Lab 3 PDF slides 29–30; global React, accessibility, audit and commit 
 - H3-T1 through H3-T4 are implemented in the working tree. The timer uses a wall-clock delta and visibility resync; the claim store uses a per-drop in-flight lock and restores local stock on 409; the arena is integrated in `src/App.jsx`.
 - H3-T5 automated checks are complete: 9/9 focused HW3 tests, 17/17 full suite tests, lint and build passed on Windows. The full suite includes two preserved untracked HW1 tests.
 - Browser interaction, background-tab wake, real 375px layout, keyboard/screen reader and Lighthouse evidence remain pending because the browser access host is unavailable. No browser PASS is inferred from SSR or build.
-- The one observed generated-code failure is documented in AI_FAILURE_AUDIT.md. No commit has been created; the current AGENTS.md requires the student to commit manually.
+- The one observed generated-code failure is documented in AI_FAILURE_AUDIT.md. Following the student's explicit commit request, HW3 code and tests were committed as `a9f3612` on `hw3`.
