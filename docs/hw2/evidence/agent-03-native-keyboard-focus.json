@@ -1,0 +1,32 @@
+{
+  "url": "http://127.0.0.1:5174/tests/piano-keyboard-test.html",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/5.1231.2 Chrome/156.0.8078.75 Safari/537.36 MSIX",
+  "viewport": [458, 687],
+  "date": "2026-11-11 ~07:38Z (performance.now timestamps below)",
+  "agentActions": "computer left_click on C1 (midi 24); key ArrowRight; key Return; wait 1s; key space; wait 1s; key Home; key End; key ArrowLeft; then read state with javascript_tool (no button clicks). Instrumentation added by agent via javascript_tool: MutationObserver on aria-pressed and a focusin logger.",
+  "observed": {
+    "activeMidi": "107",
+    "focusVisible": true,
+    "outline": "solid 2.4px rgb(0, 117, 185)",
+    "keyRect": { "l": 269.6000061035156, "r": 333.6000061035156 },
+    "keyboardViewportRect": { "l": 32, "r": 410.3999938964844 },
+    "pressedNow": [],
+    "status": "0 active notes",
+    "focusLog": [
+      { "midi": "24", "fv": true },
+      { "midi": "25", "fv": true },
+      { "midi": "21", "fv": true },
+      { "midi": "108", "fv": true },
+      { "midi": "107", "fv": true }
+    ],
+    "ariaPressedLog": [
+      { "midi": "24", "pressed": "true", "t": 105460 },
+      { "midi": "24", "pressed": "false", "t": 105478 },
+      { "midi": "25", "pressed": "true", "t": 105518 },
+      { "midi": "25", "pressed": "false", "t": 105541 },
+      { "midi": "25", "pressed": "true", "t": 106565 },
+      { "midi": "25", "pressed": "false", "t": 106579 }
+    ]
+  },
+  "notes": "Third/fourth pressLog pairs correspond to native Enter then Space on midi 25. Key events are a fast down/up from the automation tool; a long hold and key auto-repeat were not produced natively."
+}

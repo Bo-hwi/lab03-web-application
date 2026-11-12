@@ -1,0 +1,34 @@
+{
+  "url": "http://127.0.0.1:5174/tests/piano-keyboard-test.html",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/5.1231.2 Chrome/156.0.8078.75 Safari/537.36 MSIX",
+  "viewport": [458, 687],
+  "beforeFix": {
+    "harness": "queueMicrotask(() => target.dispatchEvent(new PointerEvent('pointercancel', ...)))",
+    "agentActions": "check 'Cancel next real pointer press'; native left_click_drag inside C1 (255,500)->(255,520); wait 1s; Capture native evidence",
+    "date": "2026-11-11T07:39:12.190Z",
+    "events": [
+      { "type": "pointercancel", "trusted": false, "midi": 24, "pressedBefore": [], "pressedAfter": [24], "activeAfter": [24] },
+      { "type": "pointerout", "trusted": true, "midi": 24, "pressedBefore": [24], "pressedAfter": [24], "activeAfter": [24] },
+      { "type": "pointerup", "trusted": true, "midi": 24, "pressedBefore": [24], "pressedAfter": [], "activeAfter": [] },
+      { "type": "lostpointercapture", "trusted": true, "midi": 24, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] }
+    ],
+    "finding": "The harness's synthetic pointercancel ran in a microtask after the document capture listener, i.e. BEFORE React's root pointerdown handler pressed the key (pressedBefore []). The key was then released only by pointerup. The cancel check was therefore vacuous; this is a defect in the AI-written test harness, not in PianoKey."
+  },
+  "afterFix": {
+    "harness": "setTimeout(..., 30) tracked in sampleTimers (cleared on effect cleanup)",
+    "reload": "fixture navigated again; served module verified: no queueMicrotask, contains '}, 30)'",
+    "agentActions": "same as beforeFix",
+    "date": "2026-11-11T07:40:38.361Z",
+    "ariaPressedLog": [ { "midi": "24", "pressed": "true", "t": 22472 }, { "midi": "24", "pressed": "false", "t": 22594 } ],
+    "events": [
+      { "type": "pointerdown", "trusted": true, "midi": 24, "inside": true, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] },
+      { "type": "pointercancel", "trusted": false, "midi": 24, "inside": false, "pressedBefore": [24], "pressedAfter": [], "activeAfter": [] },
+      { "type": "pointerout", "trusted": true, "midi": 24, "inside": true, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] },
+      { "type": "pointerup", "trusted": true, "midi": 24, "inside": true, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] },
+      { "type": "pointerout", "trusted": true, "midi": 24, "inside": false, "pressedBefore": [] }
+    ],
+    "contexts": [ { "state": "running", "initialState": "running", "userGestureActive": true, "resumeCalls": 0, "ended": 1, "oscillators": 1 } ],
+    "errors": [],
+    "result": "Cancel delivered while key 24 was pressed released it before pointerup. pointercancel is synthetic (isTrusted false) dispatched on a key that received a real pointerdown; a browser-originated pointercancel (e.g. touch gesture takeover) was not produced."
+  }
+}

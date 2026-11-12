@@ -1,0 +1,24 @@
+{
+  "url": "http://127.0.0.1:5174/tests/piano-keyboard-test.html",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/5.1231.2 Chrome/156.0.8078.75 Safari/537.36 MSIX",
+  "viewport": [458, 687],
+  "documentWidth": 442,
+  "blurAttempt": {
+    "holdReport": { "date": "2026-11-11T07:37:20.488Z", "id": "B11-before-blur", "pressed": [60], "active": [{ "id": "voice-6", "midi": 60 }] },
+    "note": "C4 was held by the harness's synthetic keydown (button 'Hold C4 for blur check'). Agent tried to cause a native window blur by (a) opening a foreground tab in the browser pane and (b) clicking 'Open 375px window'. Neither produced a window-level blur: winBlur log [] , document.hasFocus() true, pressed stayed [60]. The popup did not open in this browser pane. RESULT: native window-blur-while-held NOT exercised by agent (BLOCKED)."
+  },
+  "unmountWhileHeld": {
+    "agentActions": "computer left_click 'Mount or unmount keyboard' while C4 still held; wait 1s; click 'Capture native evidence'",
+    "capture": {
+      "date": "2026-11-11T07:37:54.044Z",
+      "keyboardMounted": false,
+      "keysInDom": 0,
+      "pressed": [],
+      "active": [],
+      "errors": [],
+      "audioAlert": null,
+      "contexts": [ { "state": "closed", "initialState": "running", "userGestureActive": true, "resumeCalls": 0, "ended": 5, "oscillators": 6 } ]
+    },
+    "note": "The context was closed on unmount with C4 held. 6 oscillators created, 5 'ended' events: the held voice's ended event was not observed, consistent with context.close() happening before its scheduled stop; closed context produces no output."
+  }
+}

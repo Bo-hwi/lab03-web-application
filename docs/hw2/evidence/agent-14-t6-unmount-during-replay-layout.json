@@ -1,0 +1,20 @@
+{
+  "provenance": "Agent-run in the same browser pane. The lifecycle probe mounted the real GrandPiano88 (StrictMode) with the app's own React/ReactDOM module instances (Vite deps ?v=46242da8) into a temporary <section>, with an injected real-AudioContext counter. Interaction used synthetic Enter keydown/keyup and button.click() (isTrusted false); React, Web Audio and timers were real.",
+  "lifecycleProbe": {
+    "contextsAtMount": 0,
+    "take": ["C4 — after 91 ms, held 302 ms", "E4 — after 413 ms, held 1513 ms"],
+    "oscillatorsBeforePlay": 2,
+    "600msIntoReplay": { "status": "Playing 2 notes at 1×.", "pressed": ["64"] },
+    "action": "root.unmount() during replay with E4 held, then waited 2500 ms",
+    "oscillatorsCreatedAfterUnmount": 0,
+    "contexts": [ { "state": "closed", "osc": 4, "ended": 3 } ],
+    "errorsAndConsoleErrors": [],
+    "note": "The held replay voice's 'ended' event was not observed because the context closed first; a closed context produces no output."
+  },
+  "layout": {
+    "375x812": { "documentScrollWidth": 375, "elementsOverflowingOutsideKeyboard": [], "transportForm": [32.8, 342.4], "minControlHeightPx": 44 },
+    "1440x900": { "documentScrollWidth": 1425, "note": "15 px vertical scrollbar" },
+    "screenshot": "Attempted at 375 px; failed because the Claude window was minimized. Visual inspection of the integrated page is therefore NOT claimed."
+  },
+  "console": "No warnings or errors from the app. Vite debug lines only, including 'invalidate PianoKeyboard.jsx: Could not Fast Refresh (new export)' after the refactor and one 'server connection lost. Polling for restart...' followed by reconnect."
+}

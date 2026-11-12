@@ -178,3 +178,170 @@ Earlier full-suite output included `WebSocket server error: Port 24678 is alread
 - No fixture page was observed in the browser. Keyboard/touch interaction, focus visibility/scrolling, 375px layout, physical sound, IME, native synthesized-click behavior, React Profiler, screen reader and Lighthouse remain PENDING/NOT RUN. No screenshots or measurements fabricated.
 - UI/UX search script could not run because Python was unavailable; used the skill's local accessibility guidance as fallback, not claimed search results.
 - H2-T3 automated gates passed; pending browser/Profiler verification explicitly handed off for Senior Review. Do not begin H2-T4.
+
+## Mandatory H2-T3 browser verification gate - 2026-11-11 (Asia/Saigon)
+
+**STATUS: BLOCKED.** This record supersedes any interpretation of the prior automated handoff as complete browser acceptance. No mandatory browser interaction, Web Audio, Profiler or responsive check below was executed successfully. No PENDING result was converted to PASS.
+
+### Policy and baseline
+
+- Student requires real-browser verification for every future HW2 UI/interaction/accessibility/audio/browser-lifecycle task. H2-T4 remains prohibited until this gate passes; no H2-T4 code added.
+- Branch hw2, HEAD `a667d237f5694cc3771b926a3ed8e94255ec2e61`. Policies read; no tracked/staged changes initially. The existing five unrelated untracked files preserved. Read package.json, vite.config.js and the existing StrictMode PianoKeyboard fixture; production App routing unchanged.
+- No product change, new dependency, security-setting change, alternative browser-control workaround or history change made in this gate attempt.
+
+### Environment and actual recovery evidence
+
+1. Browser inventory again returned no connected browsers and `Browsers: Error: The browser access host is unavailable`.
+2. Supported isolated-tab startup through cua.createBrowserTab('iab', 'about:blank') returned `The browser access host is unavailable`. Available tool discovery exposed no browser-host restart/reconnect operation.
+3. Requested that the student reconnect browser/computer-use; no successful reconnection confirmation was received before this blocked handoff.
+4. Started `npm.cmd run dev -- --host 127.0.0.1 --port 5174 --strictPort`. Actual output: Vite v7.3.7 ready in 326ms; Local: http://127.0.0.1:5174/.
+5. Confirmed fixture URL from that actual origin plus the inspected fixture path: `http://127.0.0.1:5174/tests/piano-keyboard-test.html`. A CLI Invoke-WebRequest returned HTTP 200 and the expected title/script. This proves HTTP serving only, not client React execution or browser PASS.
+6. Native fallback used fresh window inventory; successfully bound an existing Google Chrome window. Created a separate Chrome window with Ctrl+N, refreshed inventory and bound the returned `New Tab - Google Chrome` window. Original user tabs were not navigated or edited.
+7. Attempted navigation to the confirmed fixture URL. Computer-use returned: `Computer Use has been stopped for this turn because it could not determine the current browser URL on Windows with enough confidence to enforce policy.` UI automation stopped immediately. The resulting navigation/focus state is unknown; no page observation, screenshot, browser version or viewport measurement was obtained.
+8. Did not use DevTools injection, another automation channel or browser flags to evade the stop. No security barrier was bypassed. Task-owned Vite server is stopped at the blocked handoff; the new browser window may remain open because no further UI actions were permitted.
+
+### Per-test execution matrix
+
+Common metadata for all rows: attempted browser Google Chrome on Windows; exact browser version **NOT OBTAINED**; application URL `http://127.0.0.1:5174/tests/piano-keyboard-test.html`; tested viewport **NONE**. Rows identify intended target widths rather than falsely asserting they were applied. Actual result for every row: NOT EXECUTED because browser access host was unavailable and native fallback was stopped by URL policy enforcement (evidence steps 1, 2 and 7 above). No subjective listening, console logs, traces, screenshots, render counts or signal measurements were obtained.
+
+| Test ID | Target viewport | Intended steps (not executed) | Expected result | Actual result / status |
+| --- | --- | --- | --- | --- |
+| B01 | 1440px | Load fixture; count rendered note buttons and MIDI endpoints | 88 keys, MIDI 21-108 | NOT EXECUTED / BLOCKED |
+| B02 | 1440px | Inspect key color classes/computed presentation | 52 white, 36 black | NOT EXECUTED / BLOCKED |
+| B03 | 375px, 1440px | Tab through keys and inspect focused element/outline | Visible, unobscured focus | NOT EXECUTED / BLOCKED |
+| B04 | 1440px | Hold/release Enter and Space on focused key; include repeat | One activation per owner, release on keyup | NOT EXECUTED / BLOCKED |
+| B05 | 375px, 1440px | Use arrows, Home and End | Correct note receives visible focus; all notes reachable | NOT EXECUTED / BLOCKED |
+| B06 | 1440px | Real pointer down/up on key | Pressed state and voice start/release once | NOT EXECUTED / BLOCKED |
+| B07 | 1440px | Drag captured pointer outside key bounds | Owned note released on leave/move outside | NOT EXECUTED / BLOCKED |
+| B08 | 375px, 1440px | Dispatch pointercancel through client browser; inspect state/audio | Owner released; no stuck note | NOT EXECUTED / BLOCKED |
+| B09 | 1440px | Rapidly retrigger a note | No stale release, duplicate activation or stuck voice | NOT EXECUTED / BLOCKED |
+| B10 | 375px, 1440px | Hold several pointer/keyboard owners | Simultaneous independent notes; shared MIDI ownership correct | NOT EXECUTED / BLOCKED |
+| B11 | 1440px | Hold note then blur actual browser window | All owned notes released | NOT EXECUTED / BLOCKED |
+| B12 | 1440px | Cancel/release/unmount while startup pending | No late or stuck note after cleanup | NOT EXECUTED / BLOCKED |
+| B13 | 1440px | Mount error-injected synth fixture; activate key | Visible role=alert feedback and recoverable UI | NOT EXECUTED / BLOCKED |
+| B14 | Both | Capture console during mount/interactions/cleanup | No unexpected errors or unhandled rejections | NOT EXECUTED / BLOCKED |
+| A01 | 1440px | Observe real AudioContext creation/state before and after gesture | Lazy initialization/resume | NOT EXECUTED / BLOCKED |
+| A02 | 1440px | Measure real-browser waveform/RMS after noteOn | Nonzero measurable signal; label as measurement, not listening | NOT EXECUTED / BLOCKED |
+| A03 | 1440px | Release note and measure output/nodes after envelope | Oscillator ends; output returns to silence | NOT EXECUTED / BLOCKED |
+| A04 | 1440px | Start voices; Stop/dispose; measure output/context | Silence and cleanup | NOT EXECUTED / BLOCKED |
+| A05 | 1440px | Start eight notes; inspect engine and real graph/output | Eight logical voices supported | NOT EXECUTED / BLOCKED |
+| A06 | 1440px | Start ninth note; inspect tokens and indicators | FIFO oldest stolen; correct affected keys | NOT EXECUTED / BLOCKED |
+| A07 | 1440px | Repeat mount/unmount and inspect Web Audio lifecycle | No retained live nodes/context after successful disposal | NOT EXECUTED / BLOCKED |
+| P01 | 1440px | Instrument real client React Profiler at memoized key boundary | Actual per-key committed updates recorded | NOT EXECUTED / BLOCKED |
+| P02 | 1440px | Clear mount samples; activate one key | Unrelated key subtrees do not commit updates | NOT EXECUTED / BLOCKED |
+| P03 | 1440px | Profile ninth-note steal separately | New/stolen keys may update; unrelated keys isolated | NOT EXECUTED / BLOCKED |
+| P04 | 1440px | Separate StrictMode render invocations from commit samples | Honest mount/update counts and method limitations | NOT EXECUTED / BLOCKED |
+| R01 | 375px | Set actual viewport, compare document scrollWidth/clientWidth | No document horizontal overflow | NOT EXECUTED / BLOCKED |
+| R02 | 1440px | Set actual viewport, compare document scrollWidth/clientWidth | No document horizontal overflow | NOT EXECUTED / BLOCKED |
+| R03 | 375px | Navigate entire keyboard with keyboard-only input | Contained scroll and reachable focused keys | NOT EXECUTED / BLOCKED |
+| R04 | Both | Inspect accessible names, roles and aria-pressed after interaction | Correct named buttons and logical state | NOT EXECUTED / BLOCKED |
+| R05 | Both | Review focus, contrast and obvious accessibility issues | No obvious violations in tested workflows | NOT EXECUTED / BLOCKED |
+| R06 | Both | Run Lighthouse/axe if available after access restored | Record actual report/scope; no certification inferred | NOT RUN / BLOCKED; optional tooling availability unknown |
+
+### Remediation and resume procedure
+
+- Student/environment operator must restore the browser access host/connection, or make the supported native Chrome surface expose its URL reliably to computer-use. The agent cannot restart a missing host through any currently exposed tool and cannot disable its URL policy enforcement.
+- Restart/reconnect the browser/computer-use integration through the application's normal controls; report readiness. On resume first inventory surfaces and confirm safe URL access, then start the same existing Vite script and use its actual emitted URL.
+- If native binding stops again, obtain help from the environment operator rather than disabling URL checks, browser protections or changing transport to bypass policy.
+- Once access works, run every mandatory matrix row in the real client browser, add isolated test-only Profiler/Web Audio instrumentation where needed, capture browser/version/URL/actual viewports and real measurements. Fix/reproduce any discovered H2-T3 defects, add regression tests and rerun full tests/lint/build before verified commits.
+- No new AI-generated defect demonstrated in this blocked attempt; no failure count increment. Previous H2-T3 automated results remain historical and do not pass this browser gate.
+- No automated regression suite rerun: no source/test change or reproduced product defect in this attempt. git diff --check is run for the documentation change only.
+- No commits created while the mandatory browser gate is blocked; these evidence/WBS updates remain local for review, consistent with the successful-verification condition in the approved auto-commit policy. H2-T4 remains NOT STARTED.
+
+### Reconnection retry and prepared measurement harness
+
+- After the student reported reconnecting browser access, retried inventory, reset the cua JavaScript session and reinitialized it. Both inventories still returned no browsers with `The browser access host is unavailable`.
+- Native fallback now successfully bound the current Chrome window and read its existing URL. To avoid repeating the earlier navigation-policy failure, requested that the student open the confirmed local fixture in a new tab. Subsequent fresh window inventory still showed only the existing non-fixture Chrome title; fixture readiness has not been confirmed. No client test was executed or marked PASS.
+- Restarted the same Vite command; actual output reported ready in 318ms at http://127.0.0.1:5174/. Kept this task-owned server running for the requested manual opening of http://127.0.0.1:5174/tests/piano-keyboard-test.html.
+- Prepared an isolated test-only harness in tests/piano-browser-gate.jsx and .css, mounted by tests/piano-keyboard-test.jsx. It offers real-client scripted event checks, separate native-event capture, real AudioContext/AnalyserNode signal measurements, and per-key React Profiler instrumentation. No measurements have been obtained from it yet; its READY state is not a result.
+- Profiler method prepared: instrument the existing memo object's inner type in the isolated fixture, retaining its default comparator; collect actual onRender commit samples separately from StrictMode render invocations. This is test instrumentation, not production performance measurement. It still requires actual client-browser execution before any claim about render isolation.
+- Real-audio instrumentation prepared: native AudioContext, gain/oscillator nodes and AnalyserNode behind a test-only context facade; no audio mocks in this harness. Actual waveform/RMS and closure results remain NOT RUN.
+- Preparation checks only: Vite transformed the harness module with HTTP 200; npm test exited 0 with 62/62 passed; npm run lint exited 0; npm run build exited 0 (39 current App modules, 841ms). These do not exercise the new browser harness or substitute for the mandatory gate.
+- Current status remains BLOCKED/AWAITING FIXTURE ACCESS. No commit, no policy change, no production change and no H2-T4 work. The manual-open request remains pending.
+
+### Retry after student confirmed opening the fixture
+
+- Student confirmed the fixture was opened. Fresh native inventory initially returned a Chrome window titled with the existing chat, without a piano tab in its exposed tab list. Attempting its screenshot returned `window is not a usable app window`.
+- Following documented stale-window recovery, a fresh inventory returned different existing Chrome windows, still without a piano title. Automatic approval review rejected binding the returned Facebook window because it was an unrelated signed-in private session. No private-window workaround, further binding to that target, or policy bypass was attempted.
+- Requested that the student foreground the actual local fixture and confirm its displayed title/browser, so the next binding can target only the authorized piano surface. This is an environment/target-selection handoff, not a request to authorize unrelated private content.
+- Server recheck still returns HTTP 200 with the expected fixture title. That does not prove which tab is open or execute any mandatory browser test. All test rows remain BLOCKED; no new measurements, screenshots, PASS results or commits.
+
+- Student subsequently confirmed the actual gate title in Chrome. Fresh tool inventory still exposed only the unrelated chat window; direct binding to the exact authorized localhost fixture URL returned `The browser access host is unavailable`. The tool surface does not match the student's reported foreground fixture.
+- Safe next step requested: student runs the existing Run client checks button and provides the complete Actual evidence JSON. Any resulting real-client observations will be labelled student-assisted and evaluated from their actual measurements; no automation, independent observation or PASS is claimed while that result is pending. No further access to unrelated signed-in windows attempted. The fixture server remains running for this handoff.
+
+### Student-assisted real-client evidence received - partial gate results
+
+Source: [raw JSON supplied by the student](evidence/client-1442-student.json), preserved without changing values (formatting only). This was generated by the known client harness and pasted by the student, not captured independently through browser automation. Browser UA reports Chrome/156.0.0.0 on Windows; this is not an independently queried executable version. Exact URL: http://127.0.0.1:5174/tests/piano-keyboard-test.html. Actual viewport 1442x905, document width 1425. Timestamp 2026-11-10T20:43:13.350Z = 2026-11-11 03:43:13.350 Asia/Saigon.
+
+The following assessments use the actual numbers, not only the harness PASS labels. Earlier all-BLOCKED rows are historical attempts; only the scoped partial results below are now supported. Overall mandatory gate is STILL INCOMPLETE/BLOCKED for missing tests.
+
+| Test IDs | Executed steps / method | Expected | Actual supplied evidence | Assessment |
+| --- | --- | --- | --- | --- |
+| B01-B02 | Student clicked Run client checks; client DOM queried buttons/color classes | 88/52/36 | 88 keys, 52 white, 36 black | PASS student-assisted client DOM counts; visual geometry not independently inspected |
+| R04-names | Harness inspected DOM names | Named A0-C8 buttons | First Play A0, last Play C8; all-name predicate passed | PASS within DOM-name check scope |
+| B04 | Synthetic browser KeyboardEvents through actual React handlers | Enter/Space pressed states, prevention and repeat suppression | Enter [60], prevented=true; Space [64]; repeat voice count stays 1 | PASS client-handler scope; native keyboard/default-click interaction still pending |
+| P01-P02/P04 | Test-only Profiler around memo inner subtree; samples cleared after mount | Only target commits; distinguish StrictMode invocations | One update sample MIDI60, actualDuration=0; render invocations [60,60] | PASS for instrumented single-key commit isolation; duration=0 is not proof of zero rendering cost; two invocations are not two commits |
+| A01 | Existing real context state checked after activation | Running context | Before=1, now=1, state=running | PARTIAL: running confirmed; no evidence of lazy creation or resume from suspended state in this sample |
+| A02 | Real AnalyserNode waveform RMS | Nonzero signal | RMS 0.025572997882468595 | PASS measurable signal; no human listening/click/distortion claim |
+| A03 | Release and await 160ms; inspect pool and analyser | No active/tail notes, silence | Active=0, tails=0, RMS=0, cumulative ended=28 | PASS for this measured release; ended=28 is cumulative, not one-run allocation proof |
+| B05 | Synthetic arrow/Home/End events and actual focus target reads | MIDI61/21/108 respectively | right=61, home=21, end=108 | PASS client navigation target behavior; native focus visibility remains pending |
+| B09 | Twelve rapid synthetic Enter down/up pairs | No stuck logical voices | pressed=[], voices=0 | PASS for scripted client retrigger sequence |
+| B10/A05 | Eight simultaneous synthetic key owners | Eight active/pressed notes and signal | MIDI60-67 active/pressed; RMS 0.08711262531104794 | PASS real-engine eight-voice client sequence; not physical multi-touch |
+| A06/P03 | Ninth note with real engine and Profiler | Oldest replaced; only new/stolen keys commit | MIDI61-68 active/pressed; committedKeys=[60,68]; invocations=[60,60,68,68] | PASS FIFO and instrumented affected-key isolation |
+| R01-R02 | Client document-width comparison | No overflow at actual tested width | 1425 <= 1442 | PASS at 1442px only; mandatory 375px and 1440px remain unexecuted |
+| B14 | Harness console.error/error/unhandledrejection capture during scope | No captured unexpected errors | capturedErrors=[] | PASS captured scope; not a complete browser DevTools console export |
+
+Still required: native pointer down/up/leave/cancel and no-stuck behavior, native keyboard-only focus/activation, actual window blur, startup error feedback, initial lazy/resume lifecycle, real Stop/dispose/closure measurement, unmount cleanup, exact 375px and 1440px navigation/overflow/accessibility review. No full WCAG certification, Lighthouse score, physical listening or independent automation claim. Requested the remaining browser evidence; no commit before gate completion, no H2-T4.
+
+## Agent real-browser evidence - 2026-11-11 (Asia/Saigon, afternoon)
+
+### Provenance
+
+- Browser: Claude desktop built-in browser pane, Electron Chromium 156 (UA `Claude/5.1231.2 Chrome/156.0.8078.75`), Windows, DPR 1.25, driven by the agent (Claude). This is not the student's Chrome. 375x812 and 1440x900 were set with viewport emulation (375 also emulates an Android UA; clicks remain mouse events).
+- Fixture: http://127.0.0.1:5174/tests/piano-keyboard-test.html; integrated page: http://127.0.0.1:5174/ (student's Vite dev server).
+- Native = agent computer-tool pointer/keyboard input (`isTrusted: true`). Synthetic = DOM events or `.click()` dispatched by script (labelled).
+- Raw evidence: `docs/hw2/evidence/agent-01` to `agent-14` JSON (whitespace-normalized transcriptions of on-page output). Student-captured evidence: `client-1442-student.json`, `step1` to `step4-*-student.json`.
+
+### H2-T3 browser gate results
+
+| Area | Method | Result | Evidence |
+| --- | --- | --- | --- |
+| Lazy AudioContext | Native; fresh load then capture | PASS: contexts [] before first key; created inside a trusted gesture | agent-01, agent-12, agent-10 (contextsBeforeGesture 0) |
+| Resume after gesture | Native press after harness-forced `suspend()` | PASS: resumeCalls 1, state running. Suspension was forced by the harness, not by autoplay policy | agent-12 |
+| Pointer down/up, drag-out, lost capture | Native drag/click | PASS: pressed during hold, released on captured move outside, lostpointercapture, no stuck note | agent-02, step3a |
+| pointercancel | Native pointerdown + harness-dispatched cancel (synthetic) | PASS after harness fix (see AI audit #02); browser-originated cancel not produced | agent-06 |
+| Keyboard focus / activation | Native ArrowRight, Enter, Space, Home, End, ArrowLeft | PASS: focus 24→25→21→108→107, :focus-visible with solid outline rgb(0,117,185) (CSS 3px, computed 2.4px at DPR 1.25), Enter/Space press+release, focused key scrolled into view | agent-03, step4 |
+| Window blur while held | Agent attempts failed (agent-04); student native Alt+Tab in Chrome 157, 2026-11-12 | PASS: before blur pressed [60], active voice-1; first trusted window-blur sample pressedAfter [], activeAfter []; the one oscillator ended; errors [] | step5-window-blur-while-held-student |
+| Startup failure + recovery | Native press with injected failure, then Restore | PASS: role=alert text, no stuck key, no error; recovery via remount. In-place retry not exercised | agent-05 |
+| Stop/dispose | Real engine + analyser | PASS: RMS 0.0235 → 0 → context closed | agent-08, step1 |
+| Unmount while held | Native hold + unmount | PASS: context closed, active [] | agent-04 |
+| Client checks at 1440 and 375 | Harness "Run client checks" | 15/15 PASS at 1440x900 and at 375x812 (cold context, after A02 harness fix) | agent-07, agent-10; failing pre-fix run agent-09 |
+| Layout | Measured scrollWidth | 375: 375 (no overflow); 1440: 1425 | agent-10, agent-11 |
+| Profiler isolation | Instrumented Profiler | single press commits [60]; ninth voice commits [60,68] | agent-07, agent-10 |
+| Console | Pane console | 0 app warnings/errors | agent-11 |
+| Multi-touch | — | BLOCKED: no touch hardware | — |
+
+### H2-T4 to H2-T6 browser results (integrated App)
+
+| Area | Method | Result | Evidence |
+| --- | --- | --- | --- |
+| Record take | Native Record, three held notes, Stop recording | PASS: "Recorded 3 notes."; entry durations within 5 ms of aria-pressed durations | agent-13 |
+| Replay 1x / 2x / 0.5x | Native Play; speed via form_input on the labelled select | PASS: onsets and durations within 13 ms of schedule at every speed | agent-13 |
+| Stop during replay | Native Stop playback at 0.5x with a note held | PASS: held note released, later note never played, status "Playback stopped." | agent-13 |
+| Transport state | DOM | Record disabled while playing; Stop enabled only while playing | agent-13 |
+| Unmount during replay | Real component in StrictMode, synthetic input, real Web Audio | PASS: no context before gesture; 0 oscillators after unmount; context closed; 0 errors | agent-14 |
+| 375 / 1440 layout | Emulated viewport | 375: no overflow outside the key viewport, controls ≥ 44 px; 1440: 1425 | agent-14 |
+| Visual inspection of App | Screenshot | NOT CLAIMED: screenshot failed (Claude window minimized) | agent-14 |
+
+### Automated regression (agent cloud copy)
+
+Copy of the working tree in the agent's Linux container (Node v22.23.4, `npm ci` from the committed lockfile). This is not the student's Windows/Node 24 environment.
+
+- `npm test`: 79 tests, 79 pass, 0 fail (62 previous + 7 recording + 8 sequencer + 2 GrandPiano88/App SSR).
+- `npm run lint`: exit 0. `npm run build`: exit 0.
+- Trailing whitespace check on changed HW2 files: none. Banned-pattern grep on `src/homeworks/GrandPiano88` and `src/App.jsx`: none.
+- The student must re-run `npm.cmd test`, `npm.cmd run lint`, `npm.cmd run build` and `git diff --check` before committing.
+
+### Still pending (student)
+
+- Lighthouse Accessibility report, screen-reader pass, physical listening, multi-touch. (Window blur while held: PASS 2026-11-12, step5.)

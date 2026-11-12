@@ -1,0 +1,27 @@
+{
+  "provenance": "Agent-run: Claude desktop built-in browser pane (Electron Chromium 156), viewport emulated 375x812 (mobile emulation: Android UA, 5 touch points), fresh page load (cold AudioContext), 'Run client checks' clicked with the agent's computer tool. Harness: pointercancel fix + A02 polling fix (served module verified to contain waitForSignal, no queueMicrotask).",
+  "url": "http://127.0.0.1:5174/tests/piano-keyboard-test.html",
+  "userAgent": "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Mobile Safari/537.36",
+  "viewport": [375, 812],
+  "documentWidth": 375,
+  "date": "2026-11-11T07:44:04.651Z",
+  "method": "synthetic DOM events through actual client React handlers; pointer/native focus checks separate",
+  "results": [
+    { "id": "B01-B02", "status": "PASS", "actual": { "keys": 88, "white": 52, "black": 36 } },
+    { "id": "R04-names", "status": "PASS", "actual": { "first": "Play A0", "last": "Play C8" } },
+    { "id": "B04-Enter", "status": "PASS", "actual": { "pressed": [60], "prevented": true } },
+    { "id": "P01-P02", "status": "PASS", "actual": { "method": "instrumented memo inner subtree React.Profiler", "commits": [ { "midi": 60, "phase": "update", "actualDuration": 0 } ], "renderInvocations": [60, 60] } },
+    { "id": "A01", "status": "PASS", "actual": { "contextsBeforeGesture": 0, "contextsNow": 1, "state": "running", "initialState": "running", "userGestureActive": true, "resumeCalls": 0 } },
+    { "id": "A02", "status": "PASS", "actual": { "rms": 0.030474937147766015, "waitedMs": 220, "contextTime": 0.04, "method": "real AudioContext AnalyserNode, not human listening" } },
+    { "id": "B04-repeat", "status": "PASS", "actual": { "count": 1 } },
+    { "id": "A03", "status": "PASS", "actual": { "active": 0, "tails": 0, "rms": 0, "ended": 1 } },
+    { "id": "B04-Space", "status": "PASS", "actual": { "pressed": [64] } },
+    { "id": "B05", "status": "PASS", "actual": { "right": "61", "home": "21", "end": "108" } },
+    { "id": "B09", "status": "PASS", "actual": { "pressed": [], "voices": 0 } },
+    { "id": "B10-A05", "status": "PASS", "actual": { "pressed": [60, 61, 62, 63, 64, 65, 66, 67], "active": [60, 61, 62, 63, 64, 65, 66, 67], "rms": 0.08115031385187325 } },
+    { "id": "A06-P03", "status": "PASS", "actual": { "pressed": [61, 62, 63, 64, 65, 66, 67, 68], "committedKeys": [60, 68], "renderInvocations": [60, 60, 68, 68] } },
+    { "id": "R01-R02", "status": "PASS", "actual": { "viewport": 375, "documentWidth": 375 } },
+    { "id": "B14", "status": "PASS", "actual": { "capturedErrors": [] } }
+  ],
+  "observation": "On a cold context the first audible output reached the analyser ~300 ms after keydown (80 ms fixed wait + waitedMs 220; contextTime only 0.04 s at detection). This is AudioContext startup latency of lazy creation in this environment, not a silent note; it is recorded as a UX observation, not fixed in H2-T3."
+}

@@ -1,0 +1,31 @@
+{
+  "url": "http://127.0.0.1:5174/tests/piano-keyboard-test.html",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/5.1231.2 Chrome/156.0.8078.75 Safari/537.36 MSIX",
+  "viewport": [458, 687],
+  "documentWidth": 442,
+  "date": "2026-11-11T07:36:16.754Z",
+  "agentActions": "computer left_click_drag from B0 (midi 23) to a point above the keyboard; wait 1s; computer left_click on C1 (midi 24); wait 1s; click Capture native evidence",
+  "pressed": [],
+  "nativeEvents": [
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 22, "inside": false, "pressedBefore": [], "pressedAfter": [23], "activeAfter": [23] },
+    { "type": "pointerdown", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 23, "inside": true, "pressedBefore": [], "pressedAfter": [23], "activeAfter": [23] },
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 23, "inside": true, "pressedBefore": [23], "pressedAfter": [23], "activeAfter": [23] },
+    { "type": "pointermove-outside", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 23, "inside": false, "pressedBefore": [23], "pressedAfter": [], "activeAfter": [] },
+    { "type": "lostpointercapture", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 23, "inside": false, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 23, "inside": false, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerdown", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 24, "inside": true, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 24, "inside": true, "pressedBefore": [24], "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerup", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 24, "inside": true, "pressedBefore": [24], "pressedAfter": [], "activeAfter": [] },
+    { "type": "lostpointercapture", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 24, "inside": true, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 24, "inside": true, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 24, "inside": false, "pressedBefore": [] }
+  ],
+  "lastKeyFocus": { "midi": 24, "focusVisible": false, "outlineStyle": "none", "outlineWidth": "2.4px", "outlineColor": "rgb(21, 36, 59)", "bounds": { "left": 172.8000030517578, "right": 236.8000030517578 } },
+  "audioAlert": null,
+  "keyboardMounted": true,
+  "errors": [],
+  "active": [],
+  "contexts": [
+    { "state": "running", "initialState": "running", "userGestureActive": true, "resumeCalls": 0, "ended": 2, "oscillators": 2 }
+  ]
+}

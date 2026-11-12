@@ -1,0 +1,27 @@
+{
+  "url": "http://127.0.0.1:5174/tests/piano-keyboard-test.html",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "viewport": [1421, 897],
+  "documentWidth": 1404,
+  "date": "2026-11-11T07:28:42.058Z",
+  "pressed": [],
+  "nativeEvents": [
+    { "type": "window-blur", "trusted": true, "pressedAfter": [], "activeAfter": [] },
+    { "type": "window-blur", "trusted": true, "pressedAfter": [], "activeAfter": [] },
+    { "type": "window-blur", "trusted": true, "pressedAfter": [], "activeAfter": [] },
+    { "type": "window-blur", "trusted": true, "pressedAfter": [], "activeAfter": [] },
+    { "type": "pointerout", "trusted": true, "pointerId": 1, "midi": 44, "pressedAfter": [], "activeAfter": [] }
+  ],
+  "lastKeyFocus": {
+    "midi": 24,
+    "focusVisible": true,
+    "outlineStyle": "solid",
+    "outlineWidth": "2.66667px",
+    "outlineColor": "rgb(0, 117, 185)",
+    "bounds": { "left": 172.88888549804688, "right": 236.88888549804688 }
+  },
+  "audioAlert": null,
+  "keyboardMounted": true,
+  "errors": [],
+  "contexts": []
+}

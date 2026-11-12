@@ -1,0 +1,31 @@
+{
+  "provenance": "Student-run in Chrome 157 (Windows) on 2026-11-12, pasted into chat; values unchanged, whitespace normalized. Steps: refresh fixture; click 'Hold C4 for blur check'; Alt+Tab to another app ~1 s and back; click 'Capture native evidence'.",
+  "beforeBlur": {
+    "url": "http://127.0.0.1:5174/tests/piano-keyboard-test.html",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+    "viewport": [1421, 897], "documentWidth": 1404, "date": "2026-11-12T03:46:24.558Z",
+    "id": "B11-before-blur", "pressed": [60], "active": [{ "id": "voice-1", "midi": 60 }]
+  },
+  "afterBlur": {
+    "url": "http://127.0.0.1:5174/tests/piano-keyboard-test.html",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+    "viewport": [1421, 897], "documentWidth": 1404, "date": "2026-11-12T03:46:55.243Z",
+    "pressed": [],
+    "nativeEvents": [
+      { "type": "pointerout", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 28, "inside": false, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] },
+      { "type": "pointerout", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 27, "inside": false, "pressedBefore": [60], "pressedAfter": [60], "activeAfter": [60] },
+      { "type": "pointerout", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 26, "inside": false, "pressedBefore": [60], "pressedAfter": [60], "activeAfter": [60] },
+      { "type": "pointerout", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 25, "inside": false, "pressedBefore": [60], "pressedAfter": [60], "activeAfter": [60] },
+      { "type": "pointerout", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 24, "inside": false, "pressedBefore": [60], "pressedAfter": [60], "activeAfter": [60] },
+      { "type": "window-blur", "trusted": true, "pressedAfter": [], "activeAfter": [] },
+      { "type": "pointerout", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 44, "inside": false, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] },
+      { "type": "pointerout", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 41, "inside": false, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] },
+      { "type": "window-blur", "trusted": true, "pressedAfter": [], "activeAfter": [] },
+      { "type": "pointerout", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 24, "inside": false, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] },
+      { "type": "pointerout", "trusted": true, "pointerId": 1, "pointerType": "mouse", "midi": 26, "inside": false, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] },
+      { "type": "window-blur", "trusted": true, "pressedAfter": [], "activeAfter": [] }
+    ],
+    "lastKeyFocus": null, "audioAlert": null, "keyboardMounted": true, "errors": [], "active": [],
+    "contexts": [ { "state": "running", "initialState": "running", "userGestureActive": true, "resumeCalls": 0, "ended": 1, "oscillators": 1 } ]
+  }
+}

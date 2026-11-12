@@ -1,0 +1,23 @@
+{
+  "provenance": "Agent-run in Claude desktop built-in browser pane (Electron Chromium 156, viewport 458x687, not emulated). Harness v3 adds test-only button 'Suspend latest audio context' to force the PolyphonicSynth resume branch.",
+  "url": "http://127.0.0.1:5174/tests/piano-keyboard-test.html",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/5.1231.2 Chrome/156.0.8078.75 Safari/537.36 MSIX",
+  "viewport": [458, 687],
+  "documentWidth": 442,
+  "agentActions": "fresh load; native left_click_drag inside C1 (creates keyboard context); click 'Suspend latest audio context'; native left_click_drag inside C1 again; click 'Capture native evidence'",
+  "afterSuspend": { "date": "2026-11-11T07:45:28.517Z", "id": "A01-suspended", "contexts": [ { "state": "suspended", "resumeCalls": 0 } ] },
+  "afterSecondNativePress": {
+    "date": "2026-11-11T07:45:31.202Z",
+    "pressed": [], "errors": [], "audioAlert": null,
+    "contexts": [ { "state": "running", "initialState": "running", "userGestureActive": true, "resumeCalls": 1, "ended": 2, "oscillators": 2 } ],
+    "eventsExcludingPointerout": [
+      { "type": "pointerdown", "trusted": true, "midi": 24, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] },
+      { "type": "pointerup", "trusted": true, "midi": 24, "pressedBefore": [24], "pressedAfter": [], "activeAfter": [] },
+      { "type": "lostpointercapture", "trusted": true, "midi": 24, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] },
+      { "type": "pointerdown", "trusted": true, "midi": 24, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] },
+      { "type": "pointerup", "trusted": true, "midi": 24, "pressedBefore": [24], "pressedAfter": [], "activeAfter": [] },
+      { "type": "lostpointercapture", "trusted": true, "midi": 24, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] }
+    ]
+  },
+  "limitation": "The suspension was forced by the test harness (context.suspend()), not by the browser autoplay policy; in this browser a context created inside a gesture starts 'running'."
+}

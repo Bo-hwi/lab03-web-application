@@ -1,0 +1,28 @@
+{
+  "url": "http://127.0.0.1:5174/tests/piano-keyboard-test.html",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/5.1231.2 Chrome/156.0.8078.75 Safari/537.36 MSIX",
+  "viewport": [458, 687],
+  "failure": {
+    "agentActions": "click 'Mount or unmount keyboard' (remount); click 'Inject startup failure'; native left_click on C1 (midi 24); wait 1s; read DOM; click 'Capture native evidence'",
+    "domAfterPress": { "alert": "Audio unavailable: Gate injected audio initialization failure. Try a key again.", "pressed": [], "status": "0 active notes" },
+    "capture": { "date": "2026-11-11T07:38:17.939Z", "audioAlert": "Audio unavailable: Gate injected audio initialization failure. Try a key again.", "pressed": [], "active": [], "errors": [],
+      "contexts": [ { "state": "closed", "initialState": "running", "userGestureActive": true, "resumeCalls": 0, "ended": 5, "oscillators": 6 } ] },
+    "note": "No new AudioContext record (factory threw before creating one); key not left pressed; no uncaught error/console.error captured."
+  },
+  "recovery": {
+    "agentActions": "click 'Restore audio' (harness remounts keyboard with failStartup=false); native left_click_drag inside C1 (255,500)->(255,520); wait 1s; click 'Capture native evidence'",
+    "capture": { "date": "2026-11-11T07:38:40.421Z", "audioAlert": null, "pressed": [], "active": [], "errors": [],
+      "contexts": [
+        { "state": "closed", "initialState": "running", "userGestureActive": true, "resumeCalls": 0, "ended": 5, "oscillators": 6 },
+        { "state": "running", "initialState": "running", "userGestureActive": true, "resumeCalls": 0, "ended": 1, "oscillators": 1 }
+      ],
+      "lastEvents": [
+        { "type": "pointerout", "midi": 24, "pressedBefore": [24], "pressedAfter": [24], "activeAfter": [24] },
+        { "type": "pointerup", "midi": 24, "pressedBefore": [24], "pressedAfter": [], "activeAfter": [] },
+        { "type": "lostpointercapture", "midi": 24, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] },
+        { "type": "pointerout", "midi": 24, "pressedBefore": [], "pressedAfter": [], "activeAfter": [] },
+        { "type": "pointerout", "midi": 24, "pressedBefore": [] }
+      ] },
+    "limitation": "Recovery was through the harness remount ('Restore audio'). In-place retry on the same mounted keyboard after a transient failure was not exercised in the browser."
+  }
+}

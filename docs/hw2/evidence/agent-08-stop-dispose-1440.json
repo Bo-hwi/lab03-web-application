@@ -1,0 +1,13 @@
+{
+  "provenance": "Agent-run: Claude desktop built-in browser pane (Electron Chromium 156), emulated 1440x900; 'Measure Stop and dispose' clicked with the agent's computer tool.",
+  "url": "http://127.0.0.1:5174/tests/piano-keyboard-test.html",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/5.1231.2 Chrome/156.0.8078.75 Safari/537.36 MSIX",
+  "viewport": [1440, 900],
+  "documentWidth": 1425,
+  "date": "2026-11-11T07:41:17.748Z",
+  "method": "real-browser standalone engine/analyser",
+  "results": [
+    { "id": "A04-A07", "status": "PASS", "actual": { "signalRms": 0.02345402246982513, "stopRms": 0, "closeResult": { "ok": true }, "contextState": "closed", "oscillators": 1, "ended": 1 } }
+  ],
+  "visual": "Agent screenshot at 1440x900 (not saved as a file): heading, controls wrap on two rows, piano section fits the page width; keys scroll inside the bordered keyboard viewport with a horizontal scrollbar there only; note labels legible on white and black keys."
+}
