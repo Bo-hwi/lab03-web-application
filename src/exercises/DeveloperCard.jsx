@@ -8,7 +8,7 @@ export function SkillBadge({ name }) {
 export function DeveloperCard({
   developer = {
     id: "dev-01",
-    name: "Nguyen Bao Huy",
+    name: "Tran Ngoc Bao Huy",
     role: "Frontend Developer",
     location: "Ho Chi Minh City, Vietnam",
     summary: "I build accessible, reliable interfaces with React and browser APIs.",

@@ -3,7 +3,7 @@ import { Fragment, useId, useState } from "react";
 import { SkillBadge } from "./SkillBadge.jsx";
 
 export function DeveloperCard({
-  fullName = "Nguyen Bao Huy",
+  fullName = "Tran Ngoc Bao Huy",
   role = "Frontend Developer",
   avatarUrl = "",
   metrics = {},
