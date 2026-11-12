@@ -1,0 +1,16 @@
+:root {
+  --bonus-ink: #251a35;
+  --bonus-paper: #fffaf7;
+  --bonus-accent: #8f315d;
+  --bonus-focus: #135f86;
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+  color: var(--bonus-ink);
+  background: #f8edf0;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--bonus-focus); outline-offset: 3px; }
