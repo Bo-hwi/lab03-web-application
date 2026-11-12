@@ -1,8 +1,8 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { PianoKeyboard } from "../src/homeworks/GrandPiano88/PianoKeyboard.jsx";
+import { PianoBrowserGate } from "./piano-browser-gate.jsx";
 import "../src/styles.css";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode><PianoKeyboard /></StrictMode>,
+  <StrictMode><PianoBrowserGate /></StrictMode>,
 );

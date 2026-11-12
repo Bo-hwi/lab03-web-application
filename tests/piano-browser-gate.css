@@ -1,0 +1,4 @@
+.gate { padding: 1rem; max-width: 100%; }
+.gate nav { display: flex; flex-wrap: wrap; gap: .5rem; margin-block: 1rem; }
+.gate button { min-height: 44px; }
+.gate pre { white-space: pre-wrap; overflow-wrap: anywhere; max-width: 100%; background: #eef3f9; padding: 1rem; }
