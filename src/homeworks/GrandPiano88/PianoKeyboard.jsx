@@ -4,15 +4,15 @@ import { PianoKey } from "./PianoKey.jsx";
 import { usePianoInput } from "./usePianoInput.js";
 import styles from "./PianoKeyboard.module.css";
 
-/** createSynth is optional mount-time dependency injection; change key to replace it. */
-export function PianoKeyboard({ createSynth }) {
+/** Presentational keyboard over an existing input store (shared with recorder/sequencer). */
+export function PianoKeyboardView({ input, snapshot, headingLevel = 2 }) {
   const headingId = useId();
   const instructionsId = useId();
-  const { input, snapshot } = usePianoInput(createSynth);
+  const Heading = headingLevel === 3 ? "h3" : "h2";
   return (
     <section className={styles.instrument} aria-labelledby={headingId}>
       <header>
-        <h2 id={headingId}>88-key piano</h2>
+        <Heading id={headingId}>88-key piano</Heading>
         <p id={instructionsId}>Hold a key with a pointer, Enter or Space. Use arrow keys, Home and End to move focus. Scroll to explore A0–C8.</p>
       </header>
       {snapshot.error && <p role="alert">Audio unavailable: {snapshot.error}. Try a key again.</p>}
@@ -34,4 +34,10 @@ export function PianoKeyboard({ createSynth }) {
       <output role="status" aria-live="polite">{snapshot.pressedMidis.length} active notes</output>
     </section>
   );
+}
+
+/** createSynth is optional mount-time dependency injection; change key to replace it. */
+export function PianoKeyboard({ createSynth }) {
+  const { input, snapshot } = usePianoInput(createSynth);
+  return <PianoKeyboardView input={input} snapshot={snapshot} />;
 }
