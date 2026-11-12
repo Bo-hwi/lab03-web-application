@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "node --test",
-    "lint": "eslint src vite.config.js"
+    "test:e2e": "node scripts/run-e2e.mjs",
+    "lint": "eslint src e2e scripts vite.config.js playwright.config.js"
   },
   "dependencies": {
     "react": "^19.0.0",
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.65.0",
     "@vitejs/plugin-react": "^5.0.0",
     "eslint": "^10.14.0",
     "eslint-plugin-react-hooks": "^7.1.1",

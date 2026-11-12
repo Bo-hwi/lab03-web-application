@@ -1,6 +1,7 @@
 import { useId, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { SMART_PEOPLE } from "../data/smartPeople.js";
+import styles from "./ScientistDirectory.module.css";
 
 export function ScientistDirectory() {
   const headingId = useId();
@@ -39,38 +40,27 @@ export function ScientistDirectory() {
   }
 
   return (
-    <section aria-labelledby={headingId}>
+    <section className={styles.directory} aria-labelledby={headingId}>
       <h2 id={headingId}>Scientist & Pioneer Directory</h2>
-      <form role="search" onSubmit={(event) => event.preventDefault()}>
-        <label htmlFor={queryId}>Search by name</label>
-        <input
-          id={queryId}
-          type="search"
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-        />
-        <label htmlFor={minIqId}>Minimum IQ</label>
-        <input
-          id={minIqId}
-          type="number"
-          min="0"
-          value={minIq}
-          onChange={(event) =>
-            setMinIq(Number.isNaN(event.target.valueAsNumber)
-              ? 0
-              : event.target.valueAsNumber)
-          }
-        />
-        <label htmlFor={sortId}>Sort by</label>
-        <select
-          id={sortId}
-          value={sortBy}
-          onChange={(event) => setSortBy(event.target.value)}
-        >
-          <option value="iq-desc">IQ, highest first</option>
-          <option value="age-asc">Age, youngest first</option>
-        </select>
+      <form className={styles.controls} role="search" onSubmit={(event) => event.preventDefault()}>
+        <p className={styles.field}>
+          <label htmlFor={queryId}>Search by name</label>
+          <input id={queryId} type="search" value={query} onChange={(event) => setQuery(event.target.value)} />
+        </p>
+        <p className={styles.field}>
+          <label htmlFor={minIqId}>Minimum IQ</label>
+          <input id={minIqId} type="number" min="0" value={minIq}
+            onChange={(event) => setMinIq(Number.isNaN(event.target.valueAsNumber) ? 0 : event.target.valueAsNumber)} />
+        </p>
+        <p className={styles.field}>
+          <label htmlFor={sortId}>Sort by</label>
+          <select id={sortId} value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
+            <option value="iq-desc">IQ, highest first</option>
+            <option value="age-asc">Age, youngest first</option>
+          </select>
+        </p>
         <button
+          className={styles.reset}
           ref={resetButtonRef}
           type="button"
           onClick={() => setPeople([...SMART_PEOPLE])}
@@ -84,7 +74,7 @@ export function ScientistDirectory() {
       {visiblePeople.length === 0 ? (
         <p>No pioneers match the current filters.</p>
       ) : (
-        <ul>
+        <ul className={styles.people}>
           {visiblePeople.map((person) => (
             <li key={person.id}>
               {person.name} — IQ {person.iq}, age {person.age}{" "}

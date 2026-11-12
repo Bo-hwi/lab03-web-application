@@ -3,6 +3,10 @@
   color: #14243b;
   background: #f4f7fb;
   line-height: 1.5;
+  --arena-ink: #182d3b;
+  --arena-accent: #ffd36f;
+  --drum-ink: #172842;
+  --drum-surface: #ffffff;
 }
 * { box-sizing: border-box; }
 body { margin: 0; }

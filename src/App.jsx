@@ -4,6 +4,9 @@ import { DeveloperCard } from "./components/DeveloperCard.jsx";
 import { PubgMatchTelemetry } from "./components/PubgMatchTelemetry.jsx";
 import { ScientistDirectory } from "./components/ScientistDirectory.jsx";
 import { PUBG_VN_SQUADS } from "./data/pubgSquads.js";
+import { KraftonPubgVnArena } from "./homeworks/KraftonPubgVnArena/KraftonPubgVnArena.jsx";
+import { DrumMachine } from "./homeworks/DrumMachine/DrumMachine.jsx";
+import { GrandPiano88 } from "./homeworks/GrandPiano88/GrandPiano88.jsx";
 
 const skills = [
   { id: "react", name: "React", level: "Intermediate" },
@@ -34,6 +37,9 @@ export default function App() {
         </ul>
         <PubgMatchTelemetry key={squadId} squadId={squadId} />
       </section>
+      <DrumMachine />
+      <GrandPiano88 />
+      <KraftonPubgVnArena />
     </main>
   );
 }
