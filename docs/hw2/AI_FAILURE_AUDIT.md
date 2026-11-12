@@ -97,7 +97,7 @@ Slide 28's standalone PolyphonicSynth calls noteOff without defining it; slide 2
 - Expected: the cancel reaches the key while it is pressed and releases it before pointerup.
 - Observed proof (agent-06 beforeFix, 07:39:12Z): pointercancel logged with `pressedBefore []` then `pressedAfter [24]`; the key stayed pressed until the real pointerup. The microtask ran after the capture listener and before React's root pointerdown handler, so the cancel preceded the press and the check could never fail.
 - Correction: dispatch the cancel from a 30 ms timer tracked in the effect's timer set (cleared on cleanup). Re-run (agent-06 afterFix, 07:40:38Z): cancel arrives with `pressedBefore [24]`, `pressedAfter []`, released before pointerup.
-- Fix commit: pending student commit.
+- Fix commit: `d341aaa1d5853d787db6b465e248a9ede1a1ee8c` - `test(hw2): add real-browser gate harness for piano keyboard` (verified in git log, 2026-11-12).
 - Impact/category: test harness defect that made a verification check vacuous. Not a PianoKey defect.
 
 ## Failure #03 - Browser-gate A02 audio check sampled once at a fixed delay and failed on a cold AudioContext
@@ -107,7 +107,7 @@ Slide 28's standalone PolyphonicSynth calls noteOff without defining it; slide 2
 - Expected: detect the first note's output whenever the note actually sounds.
 - Observed proof (agent-09, 07:41:55Z, fresh load at 375x812): A02 FAIL with rms 0 while A01 showed a new running context. Agent probe with the real PolyphonicSynth: a fresh context reported `running` with currentTime 0; first non-zero RMS appeared ~64 ms after noteOn, stable from ~175 ms. Earlier PASS runs had a warm context (contextsBeforeGesture 1), which hid the race.
 - Correction: `waitForSignal()` polls every 20 ms for up to 600 ms (also used by "Measure Stop and dispose"). Re-run (agent-10, 07:44:04Z, cold context): A02 PASS, rms 0.0305, waitedMs 220.
-- Fix commit: pending student commit.
+- Fix commit: `d341aaa1d5853d787db6b465e248a9ede1a1ee8c` - `test(hw2): add real-browser gate harness for piano keyboard` (verified in git log, 2026-11-12).
 - Impact/category: flaky, timing-dependent test defect. It also revealed ~300 ms first-note latency on a cold context in this environment (recorded as a UX observation, not fixed).
 
 ## H2-T4 to H2-T7 checkpoint - 2026-11-11
